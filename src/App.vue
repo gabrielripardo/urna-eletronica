@@ -1,28 +1,37 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="urna">
+      <Teclado/>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import '@/css/global.css';
+import Teclado from '@/components/Teclado.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Teclado
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    background-color: var(--background-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #urna{
+    width: 1000px;
+    height: 500px;
+    background-color: var(--ballot-box-background-color);
+    padding: 30px;
+    border-radius: 5px;
+  }
 </style>
