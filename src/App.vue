@@ -6,7 +6,9 @@
         :numeroVoto="numeroVoto"
         :quantidadeNumeros="quantidadeNumeros"
       />
-      <Teclado />
+      <Teclado
+        :adicionarNumero="adicionarNumero"
+       />
     </div>
   </div>
 </template>
@@ -24,7 +26,7 @@ export default {
     Tela,
   },
   methods: {
-    adicionarNumer(numero){
+    adicionarNumero(numero){
       //Adiciona o número selecionado
       this.numeroVoto += ''+numero;
     }

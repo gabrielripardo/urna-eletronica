@@ -2,22 +2,22 @@
     <div class="urna-teclado">
         <div class="urna-teclado-numerico">
             <div class="urna-teclado-numerico-linha">
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
+                <button v-on:click="adicionarNumero(1)">1</button>
+                <button v-on:click="adicionarNumero(2)">2</button>
+                <button v-on:click="adicionarNumero(3)">3</button>
             </div>
             <div class="urna-teclado-numerico-linha">
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
+                <button v-on:click="adicionarNumero(4)">4</button>
+                <button v-on:click="adicionarNumero(5)">5</button>
+                <button v-on:click="adicionarNumero(6)">6</button>
             </div>
             <div class="urna-teclado-numerico-linha">
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
+                <button v-on:click="adicionarNumero(7)">7</button>
+                <button v-on:click="adicionarNumero(8)">8</button>
+                <button v-on:click="adicionarNumero(9)">9</button>
             </div>
             <div class="urna-teclado-numerico-linha">
-                <button>0</button>                
+                <button v-on:click="adicionarNumero(0)">0</button>                
             </div>
         </div>
         
@@ -31,7 +31,10 @@
 
 <script>
     export default{
-        name: 'Teclado'
+        name: 'Teclado',
+        props: {
+            adicionarNumero: Function
+        }
     }
 </script>
 
