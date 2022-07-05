@@ -1,14 +1,8 @@
 <template>
   <div id="app">
     <div id="urna">
-      <Tela
-        :tela="tela"
-        :numeroVoto="numeroVoto"
-        :quantidadeNumeros="quantidadeNumeros"
-      />
-      <Teclado
-        :adicionarNumero="adicionarNumero"
-       />
+      <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" />
+      <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote" />
     </div>
   </div>
 </template>
@@ -26,9 +20,19 @@ export default {
     Tela,
   },
   methods: {
-    adicionarNumero(numero){
+    adicionarNumero(numero) {
       //Adiciona o número selecionado
-      this.numeroVoto += ''+numero;
+      this.numeroVoto += '' + numero;
+    },
+
+    clearDigits() {
+      console.log('limpando os números digitados...')
+      this.numeroVoto = '';
+    },
+
+    confirmVote() {
+      console.log('voto confirmado')
+      this.tela = "fim"
     }
   },
   data() {
@@ -52,6 +56,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
 #urna {
   display: flex;
   justify-content: space-between;

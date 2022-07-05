@@ -17,77 +17,81 @@
                 <button v-on:click="adicionarNumero(9)">9</button>
             </div>
             <div class="urna-teclado-numerico-linha">
-                <button v-on:click="adicionarNumero(0)">0</button>                
+                <button v-on:click="adicionarNumero(0)">0</button>
             </div>
         </div>
-        
+
         <div class="urna-teclado-acoes">
             <button class="btn-branco">BRANCO</button>
-            <button class="btn-corrige">CORRIGE</button>
-            <button class="btn-confirma">CONFIRMA</button>
+            <button class="btn-corrige" v-on:click="clearDigits()">CORRIGE</button>
+            <button class="btn-confirma" v-on:click="confirmVote()">CONFIRMA</button>
         </div>
     </div>
 </template>
 
 <script>
-    export default{
-        name: 'Teclado',
-        props: {
-            adicionarNumero: Function
-        }
+export default {
+    name: 'Teclado',
+    props: {
+        adicionarNumero: Function,
+        clearDigits: Function,
+        confirmVote: Function
     }
+}
 </script>
 
 <style>
-    .urna-teclado{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;        
-        width: 40%;
-        height: 100%;
-        background-color: var(--ballot-box-keyboard-color);        
-        border-radius: 5px;
-        padding:20px
-    }
+.urna-teclado {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 40%;
+    height: 100%;
+    background-color: var(--ballot-box-keyboard-color);
+    border-radius: 5px;
+    padding: 20px
+}
 
-    .urna-teclado-numerico{
-        width: 100%;      
-    }
+.urna-teclado-numerico {
+    width: 100%;
+}
 
-    .urna-teclado-numerico-linha{
-        display: flex;        
-        justify-content: space-around;
-    }
+.urna-teclado-numerico-linha {
+    display: flex;
+    justify-content: space-around;
+}
 
-    .urna-teclado-numerico button{
-        background-color: var(--ballot-box-keyboard-button-color);
-        color: var(--light-text-color);
-        font-size: 30px;
-        width: 80px;
-        height: 50px;
-        margin: 10px;
-    }
-    .urna-teclado-acoes{
-        display: flex;
-        justify-content: space-around;
-    }
-    .urna-teclado-acoes button{
-        color: var(--dark-text-color);
-        border-radius: 5px;
-        font-size: 15px;
-        width: 30%;
-        height: 50px;        
-    }
+.urna-teclado-numerico button {
+    background-color: var(--ballot-box-keyboard-button-color);
+    color: var(--light-text-color);
+    font-size: 30px;
+    width: 80px;
+    height: 50px;
+    margin: 10px;
+}
 
-    .btn-branco{
-        background-color: var(--ballot-box-white-button-color)
-    }
+.urna-teclado-acoes {
+    display: flex;
+    justify-content: space-around;
+}
 
-    .btn-corrige{
-        background-color: var(--ballot-box-correct-button-color)
-    }
+.urna-teclado-acoes button {
+    color: var(--dark-text-color);
+    border-radius: 5px;
+    font-size: 15px;
+    width: 30%;
+    height: 50px;
+}
 
-    .btn-confirma{
-        background-color: var(--ballot-box-confirm-button-color)
-    }
+.btn-branco {
+    background-color: var(--ballot-box-white-button-color)
+}
+
+.btn-corrige {
+    background-color: var(--ballot-box-correct-button-color)
+}
+
+.btn-confirma {
+    background-color: var(--ballot-box-confirm-button-color)
+}
 </style>

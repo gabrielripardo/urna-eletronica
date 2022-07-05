@@ -1,17 +1,13 @@
 <template>
   <div class="urna-tela">
-    <div v-if="tela != 'fim'" class="urn-tela-voto">
+    <div v-if="tela != 'fim'" class="urna-tela-voto">
       <div class="urna-tela-voto-textos">
         <div class="urna-tela-voto-titulo">Seu voto para:</div>
         <div class="urna-tela-voto-tipo">{{ tela }}</div>
       </div>
       <div class="urna-tela-voto-numeros">
         Números
-        <div
-          class="urna-tela-voto-numero"
-          v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
-          :key="key"
-        >
+        <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')" :key="key">
           {{ value }}
         </div>
       </div>
@@ -23,7 +19,9 @@
     <div class="urna-tela-voto-instrucoes"></div>
 
     <div v-if="tela == 'fim'" class="urna-tela-fim">
-      finalização
+      <audio src="../assets/audios/fim.mp3" autoplay></audio>
+      <h1>FIM</h1>
+      <h2>VOTOU</h2>
     </div>
   </div>
 </template>
@@ -48,6 +46,7 @@ export default {
   border: 2px solid var(--light-border-color);
   padding: 20px;
   color: var(--dark-text-color);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .urna-tela-voto-titulo {
@@ -61,19 +60,32 @@ export default {
   text-transform: uppercase;
 }
 
-.urna-tela-voto-numeros{
-    display: flex;
-    align-items: center;
+.urna-tela-voto-numeros {
+  display: flex;
+  align-items: center;
 }
 
 .urna-tela-voto-numero {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    border: 1px solid var(--dark-border-color);
-    margin-left: 10px;  
-    font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border: 1px solid var(--dark-border-color);
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.urna-tela-fim {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.urna-tela-fim h1 {
+  font-size: 4.8em;
+  letter-spacing: 1.5px;
 }
 </style>
