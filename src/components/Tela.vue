@@ -11,10 +11,14 @@
           {{ value }}
         </div>
       </div>
-      votação
+    </div>
+    <div class="urna-tela-voto-resultados">
+      Votação: <span>{{ candidato.votos }}</span> votos
     </div>
 
-    <div class="urna-tela-voto-imagem"></div>
+    <div class="urna-tela-voto-imagem">
+
+    </div>
 
     <div class="urna-tela-voto-instrucoes"></div>
 
@@ -33,6 +37,7 @@ export default {
     tela: String,
     numeroVoto: String,
     quantidadeNumeros: Number,
+    candidato: Object,
   },
 };
 </script>
@@ -74,6 +79,10 @@ export default {
   border: 1px solid var(--dark-border-color);
   margin-left: 10px;
   font-size: 30px;
+}
+
+.urna-tela-voto-resultados {
+  margin-top: 20px;
 }
 
 .urna-tela-fim {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="urna">
-      <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" />
+      <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato" />
       <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote" />
     </div>
   </div>
@@ -31,8 +31,18 @@ export default {
     },
 
     confirmVote() {
+      this.storeVote()
       console.log('voto confirmado')
-      this.tela = "fim"
+      // this.tela = "fim"      
+    },
+
+    storeVote() {
+      console.log('armazenando voto')
+      if (candidatos[this.tela][this.numeroVoto]) {
+        candidatos[this.tela][this.numeroVoto].votos += 1
+        console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
+        this.candidato = { votos: candidatos[this.tela][this.numeroVoto].votos }
+      }
     }
   },
   data() {
@@ -41,7 +51,7 @@ export default {
       numeroVoto: "",
       quantidadeNumeros: 2,
       candidato: {},
-      candidatos
+      candidatos,
     };
   },
 };
