@@ -23,17 +23,21 @@ export default {
     adicionarNumero(numero) {
       //Adiciona o número selecionado
       this.numeroVoto += '' + numero;
+      if (candidatos[this.tela][this.numeroVoto]) {
+        this.candidato = candidatos[this.tela][this.numeroVoto];
+      }
     },
 
     clearDigits() {
       console.log('limpando os números digitados...')
       this.numeroVoto = '';
+      this.candidato = {};
     },
 
     confirmVote() {
       this.storeVote()
       console.log('voto confirmado')
-      // this.tela = "fim"      
+      this.tela = "fim"
     },
 
     storeVote() {
@@ -41,7 +45,6 @@ export default {
       if (candidatos[this.tela][this.numeroVoto]) {
         candidatos[this.tela][this.numeroVoto].votos += 1
         console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
-        this.candidato = { votos: candidatos[this.tela][this.numeroVoto].votos }
       }
     }
   },

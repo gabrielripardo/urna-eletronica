@@ -11,13 +11,21 @@
           {{ value }}
         </div>
       </div>
-    </div>
-    <div class="urna-tela-voto-resultados">
-      Votação: <span>{{ candidato.votos }}</span> votos
-    </div>
+      <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
+        <p>
+          Nome: <span>{{ candidato.nome }}</span>
+        </p>
 
-    <div class="urna-tela-voto-imagem">
-
+        <p>
+          Partido: <span>{{ candidato.partido }}</span>
+        </p>
+        <div class="urna-tela-voto-foto">
+          <img :src="candidato.imagem" alt="foto do candidato">
+        </div>
+        <div class="urna-tela-voto-resultados">
+          Total de votos: <span>{{ candidato.votos }}</span> votos
+        </div>
+      </div>
     </div>
 
     <div class="urna-tela-voto-instrucoes"></div>
@@ -52,6 +60,18 @@ export default {
   padding: 20px;
   color: var(--dark-text-color);
   font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+}
+
+.urna-tela-voto-foto {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  width: 35%;
+}
+
+.urna-tela-voto-foto img {
+  width: 100%;
 }
 
 .urna-tela-voto-titulo {

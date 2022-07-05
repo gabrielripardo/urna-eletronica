@@ -1,6 +1,6 @@
 export default {
   "prefeito": {
-    "01": {
+    "12": {
       "votos": 0,
       "nome": "Ash",
       "partido": "Pokemon",
