@@ -44,7 +44,12 @@ export default {
     confirmVote() {
       this.storeVote()
       console.log('voto confirmado')
-      this.tela = "fim"
+
+      if (this.tela == 'vereador') {
+        this.tela = "fim"
+      } else {
+        this.goToScreen('vereador')
+      }
     },
 
     storeVote() {

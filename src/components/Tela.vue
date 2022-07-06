@@ -41,6 +41,10 @@
                 </p>
 
                 <p>
+                  Número: <span>{{ key }}</span>
+                </p>
+
+                <p>
                   Partido: <span>{{ c.partido }}</span>
                 </p>
 
