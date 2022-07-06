@@ -1,6 +1,6 @@
 <template>
   <div class="urna-tela">
-    <div v-if="tela != 'fim'" class="urna-tela-voto">
+    <div v-if="tela === 'prefeito' || tela === 'vereador'" class="urna-tela-voto">
       <div class="urna-tela-voto-textos">
         <div class="urna-tela-voto-titulo">Seu voto para:</div>
         <div class="urna-tela-voto-tipo">{{ tela }}</div>
@@ -22,8 +22,34 @@
         <div class="urna-tela-voto-foto">
           <img :src="candidato.imagem" alt="foto do candidato">
         </div>
-        <div class="urna-tela-voto-resultados">
-          Total de votos: <span>{{ candidato.votos }}</span> votos
+      </div>
+    </div>
+    <div v-if="tela === 'resultados'" class="urna-tela-resultados">
+      <h1>Total de votos</h1>
+      <div class="urna-tela-resultados-tipos">
+        <div class="urna-tela-tipo" v-for="(cand, key) in candidatos" :key="key">
+          <h2>{{ key }}</h2>
+          <div class="urna-tela-candidatos">
+            <div class="urna-tela-candidato-card" v-for="(c, key, index) in candidatos[key]" :key="key">
+              <span class="ranking-number">#{{ index + 1 }}</span>
+              <div class="candidato-image">
+                <img :src="c.imagem" alt="foto do candidato" />
+              </div>
+              <div class="candidato-data">
+                <p>
+                  Nome: <span>{{ c.nome }}</span>
+                </p>
+
+                <p>
+                  Partido: <span>{{ c.partido }}</span>
+                </p>
+
+                <p>
+                  Total de votos: <span class="total-votes">{{ c.votos }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,6 +72,7 @@ export default {
     numeroVoto: String,
     quantidadeNumeros: Number,
     candidato: Object,
+    candidatos: Object,
   },
 };
 </script>
@@ -101,10 +128,6 @@ export default {
   font-size: 30px;
 }
 
-.urna-tela-voto-resultados {
-  margin-top: 20px;
-}
-
 .urna-tela-fim {
   height: 100%;
   display: flex;
@@ -116,5 +139,57 @@ export default {
 .urna-tela-fim h1 {
   font-size: 4.8em;
   letter-spacing: 1.5px;
+}
+
+.urna-tela-resultados-tipos {
+  display: flex;
+  justify-content: space-between;
+}
+
+.urna-tela-resultados * {
+  margin: 0;
+  padding: 0;
+}
+
+.urna-tela-resultados h1 {
+  font-size: 1.8em;
+}
+
+.urna-tela-resultados h2 {
+  padding: 10px 0;
+  font-size: 1.45em;
+  text-transform: capitalize;
+}
+
+.urna-tela-candidatos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.urna-tela-candidato-card {
+  width: 230px;
+  display: flex;
+  column-gap: 5px;
+  border: 1px solid #7a7a7a;
+  padding: 10px 5px;
+  font-size: .95em;
+}
+
+.candidato-image img {
+  width: 65px;
+}
+
+.candidato-data {
+  margin-top: 10px;
+}
+
+.total-votes {
+  font-weight: 600;
+}
+
+.ranking-number {
+  font-size: 1.3em;
+  font-weight: 600;
 }
 </style>

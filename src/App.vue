@@ -1,11 +1,14 @@
 <template>
   <div id="app">
     <div class="options">
-      <button id="btn-restart"><img src="./assets/icons/restart.png" alt="votar novamente"></button>
-      <button id="btn-statistics"><img src="./assets/icons/trend.png" alt="votar novamente"></button>
+      <button id="btn-restart" v-on:click="goToScreen('prefeito')"><img src="./assets/icons/restart.png"
+          alt="votar novamente"></button>
+      <button id="btn-statistics" v-on:click="goToScreen('resultados')"><img src="./assets/icons/trend.png"
+          alt="votar novamente"></button>
     </div>
     <div id="urna">
-      <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato" />
+      <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato"
+        :candidatos="candidatos" />
       <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote" />
     </div>
   </div>
@@ -50,6 +53,12 @@ export default {
         candidatos[this.tela][this.numeroVoto].votos += 1
         console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
       }
+    },
+
+    goToScreen(name) {
+      console.log('tela: ', name)
+      this.clearDigits()
+      this.tela = name
     }
   },
   data() {
@@ -83,14 +92,13 @@ export default {
   background-color: var(--ballot-box-background-color);
   padding: 30px;
   border-radius: 5px;
-  position: absolute;
 }
 
 .options {
   display: flex;
   gap: 40px;
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 30px;
 
 }
