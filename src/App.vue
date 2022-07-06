@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="options">
+      <button id="btn-restart"><img src="./assets/icons/restart.png" alt="votar novamente"></button>
+      <button id="btn-statistics"><img src="./assets/icons/trend.png" alt="votar novamente"></button>
+    </div>
     <div id="urna">
       <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato" />
       <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote" />
@@ -66,6 +70,7 @@ export default {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -78,5 +83,23 @@ export default {
   background-color: var(--ballot-box-background-color);
   padding: 30px;
   border-radius: 5px;
+  position: absolute;
+}
+
+.options {
+  display: flex;
+  gap: 40px;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+
+}
+
+#btn-restart {
+  background: none;
+}
+
+#btn-statistics {
+  background: none;
 }
 </style>
