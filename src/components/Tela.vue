@@ -4,24 +4,25 @@
       <div class="urna-tela-voto-textos">
         <div class="urna-tela-voto-titulo">Seu voto para:</div>
         <div class="urna-tela-voto-tipo">{{ tela }}</div>
-      </div>
-      <div class="urna-tela-voto-numeros">
-        Números
-        <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')" :key="key">
-          {{ value }}
+        <div class="urna-tela-voto-numeros">
+          Número:
+          <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
+            :key="key">
+            {{ value }}
+          </div>
         </div>
-      </div>
-      <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
-        <p>
-          Nome: <span>{{ candidato.nome }}</span>
-        </p>
+        <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
+          <p>
+            Nome: <span>{{ candidato.nome }}</span>
+          </p>
 
-        <p>
-          Partido: <span>{{ candidato.partido }}</span>
-        </p>
-        <div class="urna-tela-voto-foto">
-          <img :src="candidato.imagem" alt="foto do candidato">
+          <p>
+            Partido: <span>{{ candidato.partido }}</span>
+          </p>
         </div>
+      </div>
+      <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
+        <img :src="candidato.imagem" alt="foto do candidato">
       </div>
     </div>
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
@@ -94,11 +95,14 @@ export default {
   position: relative;
 }
 
+.urna-tela-voto {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
 .urna-tela-voto-foto {
-  position: absolute;
-  top: 30px;
-  right: 40px;
-  width: 35%;
+  max-width: 140px;
 }
 
 .urna-tela-voto-foto img {
