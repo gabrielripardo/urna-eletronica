@@ -47,8 +47,10 @@ export default {
 
       if (this.tela == 'vereador') {
         this.tela = "fim"
+        this.quantidadeNumeros = 2;
       } else {
         this.goToScreen('vereador')
+        this.quantidadeNumeros = 5;
       }
     },
 

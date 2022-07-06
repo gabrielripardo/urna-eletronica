@@ -2,10 +2,10 @@
   <div class="urna-tela">
     <div v-if="tela === 'prefeito' || tela === 'vereador'" class="urna-tela-voto">
       <div class="urna-tela-voto-textos">
-        <div class="urna-tela-voto-titulo">Seu voto para:</div>
+        <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
         <div class="urna-tela-voto-tipo">{{ tela }}</div>
         <div class="urna-tela-voto-numeros">
-          Número:
+          <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
           <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
             :key="key">
             {{ value }}
