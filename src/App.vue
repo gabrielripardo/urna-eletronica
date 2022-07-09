@@ -66,6 +66,9 @@ export default {
       console.log('tela: ', name)
       this.clearDigits()
       this.tela = name
+      if (this.tela === 'prefeito') {
+        this.quantidadeNumeros = 2;
+      }
     }
   },
   data() {

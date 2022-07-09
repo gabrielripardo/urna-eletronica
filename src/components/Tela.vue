@@ -20,6 +20,11 @@
             Partido: <span>{{ candidato.partido }}</span>
           </p>
         </div>
+        <div class="urna-tela-voto-erros-textos"
+          v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
+          <span class="urna-tela-voto-erro">Número errado</span>
+          <span class="urna-tela-voto-nulo">VOTO NULO</span>
+        </div>
       </div>
       <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
         <img :src="candidato.imagem" alt="foto do candidato">
@@ -123,6 +128,7 @@ export default {
 .urna-tela-voto-numeros {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .urna-tela-voto-numero {
@@ -199,5 +205,37 @@ export default {
 .ranking-number {
   font-size: 1.3em;
   font-weight: 600;
+}
+
+.urna-tela-voto-erros-textos {
+  height: 150px;
+  width: 460px;
+  position: relative;
+}
+
+.urna-tela-voto-erro {
+  font-size: 1.8rem;
+}
+
+.urna-tela-voto-nulo {
+  font-size: 2.1rem;
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  animation: blinkblink 1.5s linear infinite;
+}
+
+@keyframes blinkblink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 </style>

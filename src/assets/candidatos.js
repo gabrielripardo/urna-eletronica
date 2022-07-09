@@ -6,7 +6,7 @@ export default {
       "partido": "Pokemon",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/ash.png"
     },
-    "08": {
+    "88": {
       "votos": 0,
       "nome": "Vegeta",
       "partido": "Dragon Ball",
@@ -14,13 +14,13 @@ export default {
     }
   },
   "vereador": {
-    "01234": {
+    "91234": {
       "votos": 0,
       "nome": "Pikachu",
       "partido": "Pokemon",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/pikachu.png"
     },
-    "08001": {
+    "28001": {
       "votos": 0,
       "nome": "Goku",
       "partido": "Dragon Ball",
