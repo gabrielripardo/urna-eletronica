@@ -267,6 +267,15 @@ export default {
   left: 18%;
 }
 
+.urna-tela-voto-nulo {
+  left: 30%;
+  bottom: 0;
+}
+
+.urna-tela-voto-branco {
+  left: 18%;
+}
+
 .urna-tela-voto-instrucoes {
   border-top: 1px solid #000;
   padding: 5px 20px;
