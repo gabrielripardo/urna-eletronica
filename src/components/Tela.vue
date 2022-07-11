@@ -1,33 +1,40 @@
 <template>
   <div class="urna-tela">
-    <div v-if="tela === 'prefeito' || tela === 'vereador'" class="urna-tela-voto">
-      <div class="urna-tela-voto-textos">
-        <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
-        <div class="urna-tela-voto-tipo">{{ tela }}</div>
-        <div class="urna-tela-voto-numeros">
-          <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
-          <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
-            :key="key">
-            {{ value }}
+    <div class="urna-tela-wrapper" v-if="tela === 'prefeito' || tela === 'vereador'">
+      <main class="urna-tela-voto">
+        <div class="urna-tela-voto-textos">
+          <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
+          <div class="urna-tela-voto-tipo">{{ tela }}</div>
+          <div class="urna-tela-voto-numeros">
+            <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
+            <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
+              :key="key">
+              {{ value }}
+            </div>
+          </div>
+          <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
+            <p>
+              Nome: <span>{{ candidato.nome }}</span>
+            </p>
+
+            <p>
+              Partido: <span>{{ candidato.partido }}</span>
+            </p>
+          </div>
+          <div class="urna-tela-voto-erros-textos"
+            v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
+            <span class="urna-tela-voto-erro">Número errado</span>
+            <span class="urna-tela-voto-nulo">VOTO NULO</span>
           </div>
         </div>
-        <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
-          <p>
-            Nome: <span>{{ candidato.nome }}</span>
-          </p>
-
-          <p>
-            Partido: <span>{{ candidato.partido }}</span>
-          </p>
+        <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
+          <img :src="candidato.imagem" alt="foto do candidato">
         </div>
-        <div class="urna-tela-voto-erros-textos"
-          v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
-          <span class="urna-tela-voto-erro">Número errado</span>
-          <span class="urna-tela-voto-nulo">VOTO NULO</span>
-        </div>
-      </div>
-      <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
-        <img :src="candidato.imagem" alt="foto do candidato">
+      </main>
+      <div class="urna-tela-voto-instrucoes">
+        <p><b>Aperte a tecla:</b></p>
+        <p>CONFIRMA para CONFIRMAR este voto</p>
+        <p>CORRIGE para REINICIAR este voto</p>
       </div>
     </div>
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
@@ -64,8 +71,6 @@
       </div>
     </div>
 
-    <div class="urna-tela-voto-instrucoes"></div>
-
     <div v-if="tela == 'fim'" class="urna-tela-fim">
       <audio src="../assets/audios/fim.mp3" autoplay></audio>
       <h1>FIM</h1>
@@ -94,16 +99,23 @@ export default {
   background-color: var(--ballot-box-screen-color);
   border-radius: 5px;
   border: 2px solid var(--light-border-color);
-  padding: 20px;
   color: var(--dark-text-color);
   font-family: Arial, Helvetica, sans-serif;
   position: relative;
+}
+
+.urna-tela-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .urna-tela-voto {
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  padding: 20px;
 }
 
 .urna-tela-voto-foto {
@@ -223,6 +235,15 @@ export default {
   bottom: 0;
   left: 30%;
   animation: blinkblink 1.5s linear infinite;
+}
+
+.urna-tela-voto-instrucoes {
+  border-top: 1px solid #000;
+  padding: 5px 20px;
+}
+
+.urna-tela-voto-instrucoes * {
+  margin: 6px 0;
 }
 
 @keyframes blinkblink {
