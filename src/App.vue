@@ -30,9 +30,11 @@ export default {
   methods: {
     adicionarNumero(numero) {
       //Adiciona o número selecionado
-      this.numeroVoto += '' + numero;
-      if (candidatos[this.tela][this.numeroVoto]) {
-        this.candidato = candidatos[this.tela][this.numeroVoto];
+      if (this.numeroVoto.length < this.quantidadeNumeros) {
+        this.numeroVoto += '' + numero;
+        if (candidatos[this.tela][this.numeroVoto]) {
+          this.candidato = candidatos[this.tela][this.numeroVoto];
+        }
       }
     },
 
