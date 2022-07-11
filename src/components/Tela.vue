@@ -4,6 +4,7 @@
       <main class="urna-tela-voto">
         <div class="urna-tela-voto-textos">
           <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
+          <span class="urna-tela-voto-abstencao" v-if="voteWhite">VOTO EM BRANCO</span>
           <div class="urna-tela-voto-tipo">{{ tela }}</div>
           <div class="urna-tela-voto-numeros">
             <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
@@ -24,7 +25,11 @@
           <div class="urna-tela-voto-erros-textos"
             v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
             <span class="urna-tela-voto-erro">Número errado</span>
-            <span class="urna-tela-voto-nulo">VOTO NULO</span>
+            <span class="urna-tela-voto-abstencao">VOTO NULO</span>
+          </div>
+
+          <div class="urna-tela-voto-erros-textos" v-if="voteWhite">
+
           </div>
         </div>
         <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
@@ -88,6 +93,7 @@ export default {
     quantidadeNumeros: Number,
     candidato: Object,
     candidatos: Object,
+    voteWhite: Boolean
   },
 };
 </script>
@@ -233,7 +239,7 @@ export default {
   font-size: 1.8rem;
 }
 
-.urna-tela-voto-nulo {
+.urna-tela-voto-abstencao {
   font-size: 2.1rem;
   position: absolute;
   bottom: 0;

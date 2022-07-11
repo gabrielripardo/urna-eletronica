@@ -11,7 +11,9 @@ export default {
       "nome": "Vegeta",
       "partido": "Dragon Ball",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/vegeta.png"
-    }
+    },
+    "branco": 0,
+    "nulo": 0,
   },
   "vereador": {
     "91234": {
@@ -25,6 +27,8 @@ export default {
       "nome": "Goku",
       "partido": "Dragon Ball",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/goku.png"
-    }
+    },
+    "branco": 0,
+    "nulo": 0,
   }
 }

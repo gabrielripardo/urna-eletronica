@@ -8,8 +8,9 @@
     </div>
     <div id="urna">
       <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato"
-        :candidatos="candidatos" />
-      <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote" />
+        :voteWhite="voteWhite" :candidatos="candidatos" />
+      <Teclado :adicionarNumero="adicionarNumero" :clearDigits="clearDigits" :confirmVote="confirmVote"
+        :handleWhiteVote="handleWhiteVote" />
     </div>
   </div>
 </template>
@@ -39,11 +40,21 @@ export default {
       console.log('limpando os números digitados...')
       this.numeroVoto = '';
       this.candidato = {};
+      this.handleWhiteVote(false)
     },
 
     confirmVote() {
-      this.storeVote()
-      console.log('voto confirmado')
+      if (this.voteWhite) {
+        this.candidatos[this.tela].branco += 1
+        this.handleWhiteVote(false)
+        console.log('voto branco');
+      } else if (Object.keys(this.candidato).length !== 0) {
+        this.storeVote()
+        console.log('voto ok');
+      } else {
+        this.candidatos[this.tela].nulo += 1
+        console.log('voto nulo');
+      }
 
       if (this.tela == 'vereador') {
         this.tela = "fim"
@@ -52,6 +63,9 @@ export default {
         this.goToScreen('vereador')
         this.quantidadeNumeros = 5;
       }
+
+      console.log('# Candidatos json:');
+      console.log(candidatos);
     },
 
     storeVote() {
@@ -69,6 +83,11 @@ export default {
       if (this.tela === 'prefeito') {
         this.quantidadeNumeros = 2;
       }
+    },
+
+    handleWhiteVote(vote = true) {
+      console.log('voto branco: ', vote);
+      this.voteWhite = vote
     }
   },
   data() {
@@ -78,6 +97,7 @@ export default {
       quantidadeNumeros: 2,
       candidato: {},
       candidatos,
+      voteWhite: false,
     };
   },
 };
