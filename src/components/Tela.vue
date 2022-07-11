@@ -167,6 +167,10 @@ export default {
   letter-spacing: 1.5px;
 }
 
+.urna-tela-resultados {
+  padding: 20px;
+}
+
 .urna-tela-resultados-tipos {
   display: flex;
   justify-content: space-between;
@@ -220,8 +224,8 @@ export default {
 }
 
 .urna-tela-voto-erros-textos {
-  height: 150px;
   width: 460px;
+  height: 144px;
   position: relative;
 }
 
