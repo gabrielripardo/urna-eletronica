@@ -44,24 +44,25 @@ export default {
     },
 
     confirmVote() {
-      if (this.voteWhite) {
-        this.candidatos[this.tela].branco += 1
-        this.handleWhiteVote(false)
-        console.log('voto branco');
-      } else if (Object.keys(this.candidato).length !== 0) {
-        this.storeVote()
-        console.log('voto ok');
-      } else {
-        this.candidatos[this.tela].nulo += 1
-        console.log('voto nulo');
-      }
-
-      if (this.tela == 'vereador') {
-        this.tela = "fim"
-        this.quantidadeNumeros = 2;
-      } else {
-        this.goToScreen('vereador')
-        this.quantidadeNumeros = 5;
+      if (this.numeroVoto != '' || this.voteWhite) {
+        if (this.voteWhite) {
+          this.candidatos[this.tela].branco += 1
+          this.handleWhiteVote(false)
+          console.log('voto branco');
+        } else if (Object.keys(this.candidato).length !== 0) {
+          this.storeVote()
+          console.log('voto ok');
+        } else {
+          this.candidatos[this.tela].nulo += 1
+          console.log('voto nulo');
+        }
+        if (this.tela == 'vereador') {
+          this.tela = "fim"
+          this.quantidadeNumeros = 2;
+        } else {
+          this.goToScreen('vereador')
+          this.quantidadeNumeros = 5;
+        }
       }
 
       console.log('# Candidatos json:');
@@ -87,7 +88,11 @@ export default {
 
     handleWhiteVote(vote = true) {
       console.log('voto branco: ', vote);
-      this.voteWhite = vote
+      if (this.numeroVoto === '') {
+        this.voteWhite = vote
+      } else {
+        alert('Pressione a tecla CORRIGE antes de pressionar BRANCO.')
+      }
     }
   },
   data() {
