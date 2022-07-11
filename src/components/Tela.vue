@@ -45,29 +45,39 @@
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
       <h1>Total de votos</h1>
       <div class="urna-tela-resultados-tipos">
-        <div class="urna-tela-tipo" v-for="(cand, key) in candidatos" :key="key">
+        <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
           <h2>{{ key }}</h2>
           <div class="urna-tela-candidatos">
-            <div class="urna-tela-candidato-card" v-for="(c, key, index) in candidatos[key]" :key="key">
-              <span class="ranking-number">#{{ index + 1 }}</span>
-              <div class="candidato-image">
-                <img :src="c.imagem" alt="foto do candidato" />
+            <div v-for="(c, key, index) in candidatos[key]" :key="key">
+              <div class="urna-tela-candidato-card" v-if="key != 'nulo' && key != 'branco'">
+                <span class="ranking-number">#{{ index + 1 }}</span>
+                <div class="candidato-image">
+                  <img :src="c.imagem" alt="foto do candidato" />
+                </div>
+                <div class="candidato-data">
+                  <p>
+                    Nome: <span>{{ c.nome }}</span>
+                  </p>
+
+                  <p>
+                    Número: <span>{{ key }}</span>
+                  </p>
+
+                  <p>
+                    Partido: <span>{{ c.partido }}</span>
+                  </p>
+
+                  <p>
+                    Total de votos: <span class="total-votes">{{ c.votos }}</span>
+                  </p>
+                </div>
               </div>
-              <div class="candidato-data">
-                <p>
-                  Nome: <span>{{ c.nome }}</span>
+              <div class="urna-tela-candidato-card" v-else>
+                <p v-if="key == 'nulo'">
+                  Votos nulos: <b>{{ c }}</b>
                 </p>
-
-                <p>
-                  Número: <span>{{ key }}</span>
-                </p>
-
-                <p>
-                  Partido: <span>{{ c.partido }}</span>
-                </p>
-
-                <p>
-                  Total de votos: <span class="total-votes">{{ c.votos }}</span>
+                <p v-if="key == 'branco'">
+                  Votos brancos: <b>{{ c }}</b>
                 </p>
               </div>
             </div>
@@ -174,12 +184,14 @@ export default {
 }
 
 .urna-tela-resultados {
-  padding: 20px;
+  padding: 20px 8px 10px 20px;
 }
 
 .urna-tela-resultados-tipos {
+  height: 377px;
   display: flex;
-  justify-content: space-between;
+  gap: 6px;
+  overflow: auto;
 }
 
 .urna-tela-resultados * {
