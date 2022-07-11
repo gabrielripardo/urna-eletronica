@@ -4,9 +4,8 @@
       <main class="urna-tela-voto">
         <div class="urna-tela-voto-textos">
           <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
-          <span class="urna-tela-voto-abstencao" v-if="voteWhite">VOTO EM BRANCO</span>
           <div class="urna-tela-voto-tipo">{{ tela }}</div>
-          <div class="urna-tela-voto-numeros">
+          <div class="urna-tela-voto-numeros" v-if="!voteWhite">
             <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
             <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
               :key="key">
@@ -25,11 +24,11 @@
           <div class="urna-tela-voto-erros-textos"
             v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
             <span class="urna-tela-voto-erro">Número errado</span>
-            <span class="urna-tela-voto-abstencao">VOTO NULO</span>
+            <span class="urna-tela-voto-nulo">VOTO NULO</span>
           </div>
 
           <div class="urna-tela-voto-erros-textos" v-if="voteWhite">
-
+            <span class="urna-tela-voto-branco" v-if="voteWhite">VOTO EM BRANCO</span>
           </div>
         </div>
         <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
@@ -251,12 +250,21 @@ export default {
   font-size: 1.8rem;
 }
 
-.urna-tela-voto-abstencao {
-  font-size: 2.1rem;
+.urna-tela-voto-nulo,
+.urna-tela-voto-branco {
   position: absolute;
+  font-size: 2.1rem;
+  animation: blinkblink 1.5s linear infinite;
+}
+
+.urna-tela-voto-nulo {
   bottom: 0;
   left: 30%;
-  animation: blinkblink 1.5s linear infinite;
+}
+
+.urna-tela-voto-branco {
+  bottom: 20%;
+  left: 18%;
 }
 
 .urna-tela-voto-instrucoes {
