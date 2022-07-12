@@ -140,7 +140,6 @@ export default {
 
 <style>
 #app {
-  background-color: var(--background-color);
   width: 100%;
   height: 100%;
   display: flex;
@@ -174,5 +173,24 @@ export default {
 
 #btn-statistics {
   background: none;
+}
+
+@media only screen and (max-width: 1047px) and (max-height: 551px) {
+
+  /*landscape*/
+  #app {
+    transform: scale(0.72);
+    gap: 10px;
+  }
+
+  .options {
+    position: static;
+  }
+}
+
+@media only screen and (max-width: 1090px) and (min-height: 552px) {
+  #app {
+    transform: scale(0.38);
+  }
 }
 </style>
