@@ -55,7 +55,7 @@
                 </div>
                 <div class="candidato-data">
                   <p>
-                    Nome: <span>{{ c[1].nome }}</span>
+                    <span v-if="c[1].nome.length < 10">Nome:</span> <em>{{ c[1].nome }}</em>
                   </p>
 
                   <p>
@@ -63,7 +63,7 @@
                   </p>
 
                   <p>
-                    Partido: <span>{{ c[1].partido }}</span>
+                    <span v-if="c[1].partido.length <= 7">Partido:</span> <span>{{ c[1].partido }}</span>
                   </p>
 
                   <p>
@@ -230,16 +230,18 @@ export default {
 .urna-tela-candidatos {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 
 .urna-tela-candidato-card {
   width: 230px;
+  max-height: 114.8px;
   display: flex;
   column-gap: 5px;
   border: 1px solid #7a7a7a;
   padding: 10px 5px;
   font-size: .95em;
+  overflow: auto;
 }
 
 .candidato-image img {

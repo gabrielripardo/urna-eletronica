@@ -19,12 +19,12 @@ export default {
     "91234": {
       "votos": 0,
       "nome": "Pikachu",
-      "partido": "Pokemon",
+      "partido": "Pokemont",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/pikachu.png"
     },
     "28001": {
       "votos": 0,
-      "nome": "Goku",
+      "nome": "Gokadddffu",
       "partido": "Dragon Ball",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/goku.png"
     },
