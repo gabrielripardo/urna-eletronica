@@ -132,6 +132,7 @@ export default {
         this.numeroVoto.length <= 1 ? this.clearDigits() : this.deleteOneDigit();
       }
       if (e.key === 'Delete') this.clearDigits()
+      if (e.key === 'Enter') this.confirmVote()
     });
   }
 };
