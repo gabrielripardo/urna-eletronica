@@ -140,7 +140,6 @@ export default {
 
 <style>
 #app {
-  background-color: var(--background-color);
   width: 100%;
   height: 100%;
   display: flex;
@@ -162,7 +161,7 @@ export default {
 .options {
   display: flex;
   gap: 40px;
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 30px;
 
@@ -174,5 +173,39 @@ export default {
 
 #btn-statistics {
   background: none;
+}
+
+@media only screen and (max-width: 1047px) and (max-height: 551px) {
+  /*landscape*/
+
+  #app {
+    flex-direction: column-reverse;
+  }
+
+  #urna {
+    transform: scale(0.72);
+    margin: 40px 0 10px;
+  }
+
+  .options {
+    transform: scale(.45);
+    position: relative;
+    top: -72px;
+  }
+}
+
+@media only screen and (max-width: 1090px) and (min-height: 552px) {
+  #urna {
+    transform: scale(0.38);
+  }
+
+  .options {
+    gap: 0;
+  }
+
+  #btn-restart,
+  #btn-statistics {
+    transform: scale(.55);
+  }
 }
 </style>
