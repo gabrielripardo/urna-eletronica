@@ -34,6 +34,8 @@ export default {
         this.numeroVoto += '' + numero;
         if (candidatos[this.tela][this.numeroVoto]) {
           this.candidato = candidatos[this.tela][this.numeroVoto];
+        } else {
+          this.candidato = {}
         }
       }
     },
@@ -104,8 +106,15 @@ export default {
       }
 
       return false;
+    },
+
+    deleteOneDigit() {
+      this.numeroVoto = this.numeroVoto.slice(0, -1);
+      this.candidato = {}
     }
   },
+
+
   data() {
     return {
       tela: "prefeito",
@@ -119,7 +128,9 @@ export default {
   mounted() {
     window.addEventListener("keydown", e => {
       if (Number(e.key)) this.adicionarNumero(e.key)
-      if (e.key === 'Backspace') this.numeroVoto = this.numeroVoto.length <= 1 ? '' : this.numeroVoto.slice(0, 1);
+      if (e.key === 'Backspace') {
+        this.numeroVoto.length <= 1 ? this.clearDigits() : this.deleteOneDigit();
+      }
       if (e.key === 'Delete') this.clearDigits()
     });
   }
