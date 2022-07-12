@@ -47,36 +47,36 @@
         <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
           <h2>{{ key }}</h2>
           <div class="urna-tela-candidatos">
-            <div v-for="(c, key, index) in candidatos[key]" :key="key">
-              <div class="urna-tela-candidato-card" v-if="key != 'nulo' && key != 'branco'">
+            <div v-for="(c, index) in sortObjectEntries(candidatos[key])" :key="index">
+              <div class="urna-tela-candidato-card" v-if="c[0] != 'nulo' && c[0] != 'branco'">
                 <span class="ranking-number">#{{ index + 1 }}</span>
                 <div class="candidato-image">
-                  <img :src="c.imagem" alt="foto do candidato" />
+                  <img :src="c[1].imagem" alt="foto do candidato" />
                 </div>
                 <div class="candidato-data">
                   <p>
-                    Nome: <span>{{ c.nome }}</span>
+                    Nome: <span>{{ c[1].nome }}</span>
                   </p>
 
                   <p>
-                    Número: <span>{{ key }}</span>
+                    Número: <span>{{ c[0] }}</span>
                   </p>
 
                   <p>
-                    Partido: <span>{{ c.partido }}</span>
+                    Partido: <span>{{ c[1].partido }}</span>
                   </p>
 
                   <p>
-                    Total de votos: <span class="total-votes">{{ c.votos }}</span>
+                    Total de votos: <span class="total-votes">{{ c[1].votos }}</span>
                   </p>
                 </div>
               </div>
               <div class="urna-tela-candidato-card" v-else>
-                <p v-if="key == 'nulo'">
-                  Votos nulos: <b>{{ c }}</b>
+                <p v-if="c[0] == 'nulo'">
+                  Votos nulos: <b>{{ c[1] }}</b>
                 </p>
-                <p v-if="key == 'branco'">
-                  Votos brancos: <b>{{ c }}</b>
+                <p v-if="c[0] == 'branco'">
+                  Votos brancos: <b>{{ c[1] }}</b>
                 </p>
               </div>
             </div>
@@ -103,6 +103,25 @@ export default {
     candidato: Object,
     candidatos: Object,
     voteWhite: Boolean
+  },
+  methods: {
+    sortObjectEntries(obj) {
+      let sortedList = []
+
+      sortedList = Object.entries(obj).sort((a, b) => {
+        if (a.votos !== null && b.votos !== null) {
+          if (b[1].votos > a[1].votos) return 1;
+          else if (b[1].votos < a[1].votos) return -1;
+          //if values are same do edition checking if keys are in the right order
+          else {
+            if (a[0].votos > b[0].votos) return 1;
+            else if (a[0].votos < b[0].votos) return -1;
+            else return 0
+          }
+        }
+      })
+      return sortedList;
+    }
   },
 };
 </script>
