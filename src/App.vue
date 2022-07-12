@@ -30,7 +30,7 @@ export default {
   methods: {
     adicionarNumero(numero) {
       //Adiciona o número selecionado
-      if (this.numeroVoto.length < this.quantidadeNumeros) {
+      if (this.numeroVoto.length < this.quantidadeNumeros && this.isVoteScreen()) {
         this.numeroVoto += '' + numero;
         if (candidatos[this.tela][this.numeroVoto]) {
           this.candidato = candidatos[this.tela][this.numeroVoto];
@@ -39,10 +39,11 @@ export default {
     },
 
     clearDigits() {
-      console.log('limpando os números digitados...')
-      this.numeroVoto = '';
-      this.candidato = {};
-      this.handleWhiteVote(false)
+      if (this.isVoteScreen()) {
+        this.numeroVoto = '';
+        this.candidato = {};
+        this.handleWhiteVote(false)
+      }
     },
 
     confirmVote() {
@@ -66,35 +67,43 @@ export default {
           this.quantidadeNumeros = 5;
         }
       }
-
-      console.log('# Candidatos json:');
-      console.log(candidatos);
     },
 
     storeVote() {
-      console.log('armazenando voto')
-      if (candidatos[this.tela][this.numeroVoto]) {
-        candidatos[this.tela][this.numeroVoto].votos += 1
-        console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
+      if (this.isVoteScreen()) {
+        console.log('armazenando voto')
+        if (candidatos[this.tela][this.numeroVoto]) {
+          candidatos[this.tela][this.numeroVoto].votos += 1
+          console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
+        }
       }
     },
 
     goToScreen(name) {
+      this.tela = name
       console.log('tela: ', name)
       this.clearDigits()
-      this.tela = name
       if (this.tela === 'prefeito') {
         this.quantidadeNumeros = 2;
       }
     },
 
     handleWhiteVote(vote = true) {
-      console.log('voto branco: ', vote);
-      if (this.numeroVoto === '') {
-        this.voteWhite = vote
-      } else {
-        alert('Pressione a tecla CORRIGE antes de pressionar BRANCO.')
+      if (this.isVoteScreen()) {
+        if (this.numeroVoto === '') {
+          this.voteWhite = vote
+        } else {
+          alert('Pressione a tecla CORRIGE antes de pressionar BRANCO.')
+        }
       }
+    },
+
+    isVoteScreen() {
+      if (this.tela == 'prefeito' || this.tela == 'vereador') {
+        return true;
+      }
+
+      return false;
     }
   },
   data() {
