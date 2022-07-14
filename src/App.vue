@@ -117,7 +117,7 @@ export default {
 
   data() {
     return {
-      tela: "prefeito",
+      tela: "gravando",
       numeroVoto: "",
       quantidadeNumeros: 2,
       candidato: {},

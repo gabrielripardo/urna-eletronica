@@ -41,6 +41,10 @@
         <p>CORRIGE para REINICIAR este voto</p>
       </div>
     </div>
+    <div v-if="tela === 'gravando'" class="urna-tela-gravando">
+      <label for="progress-bar">Gravando</label>
+      <ProgressBar :percentage="100" />
+    </div>
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
       <h1>Total de votos</h1>
       <div class="urna-tela-resultados-tipos">
@@ -94,6 +98,7 @@
 </template>
 
 <script>
+import ProgressBar from './ProgressBar.vue';
 export default {
   name: "Tela",
   props: {
@@ -106,23 +111,28 @@ export default {
   },
   methods: {
     sortObjectEntries(obj) {
-      let sortedList = []
-
+      let sortedList = [];
       sortedList = Object.entries(obj).sort((a, b) => {
         if (a.votos !== null && b.votos !== null) {
-          if (b[1].votos > a[1].votos) return 1;
-          else if (b[1].votos < a[1].votos) return -1;
+          if (b[1].votos > a[1].votos)
+            return 1;
+          else if (b[1].votos < a[1].votos)
+            return -1;
           //if values are same do edition checking if keys are in the right order
           else {
-            if (a[0].votos > b[0].votos) return 1;
-            else if (a[0].votos < b[0].votos) return -1;
-            else return 0
+            if (a[0].votos > b[0].votos)
+              return 1;
+            else if (a[0].votos < b[0].votos)
+              return -1;
+            else
+              return 0;
           }
         }
-      })
+      });
       return sortedList;
     }
   },
+  components: { ProgressBar }
 };
 </script>
 
@@ -304,6 +314,16 @@ export default {
 
 .urna-tela-voto-instrucoes * {
   margin: 6px 0;
+}
+
+.urna-tela-gravando {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  gap: 5px;
 }
 
 @keyframes blinkblink {
