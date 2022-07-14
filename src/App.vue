@@ -62,7 +62,8 @@ export default {
           console.log('voto nulo');
         }
         if (this.tela == 'vereador') {
-          this.tela = "fim"
+          this.tela = "gravando"
+          setTimeout(() => this.tela = 'fim', 3000)
           this.quantidadeNumeros = 2;
         } else {
           this.goToScreen('vereador')
@@ -117,7 +118,7 @@ export default {
 
   data() {
     return {
-      tela: "gravando",
+      tela: "prefeito",
       numeroVoto: "",
       quantidadeNumeros: 2,
       candidato: {},
