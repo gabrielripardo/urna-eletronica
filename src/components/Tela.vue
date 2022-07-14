@@ -7,7 +7,7 @@
           <div class="urna-tela-voto-tipo">{{ tela }}</div>
           <div class="urna-tela-voto-numeros" v-if="!voteWhite">
             <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
-            <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')"
+            <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, ' ')"
               :key="key">
               {{ value }}
             </div>
