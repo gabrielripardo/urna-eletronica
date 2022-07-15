@@ -1,22 +1,93 @@
 <template>
   <div class="urna-tela">
-    <div v-if="tela != 'fim'" class="urna-tela-voto">
-      <div class="urna-tela-voto-textos">
-        <div class="urna-tela-voto-titulo">Seu voto para:</div>
-        <div class="urna-tela-voto-tipo">{{ tela }}</div>
+    <div class="urna-tela-wrapper" v-if="tela === 'prefeito' || tela === 'vereador'">
+      <main class="urna-tela-voto">
+        <div class="urna-tela-voto-textos">
+          <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
+          <div class="urna-tela-voto-tipo">{{ tela }}</div>
+          <div class="urna-tela-voto-numeros" v-if="!voteWhite">
+            <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
+            <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, ' ')"
+              :key="key">
+              {{ value }}
+            </div>
+          </div>
+          <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
+            <p>
+              Nome: <span>{{ candidato.nome }}</span>
+            </p>
+
+            <p>
+              Partido: <span>{{ candidato.partido }}</span>
+            </p>
+          </div>
+          <div class="urna-tela-voto-erros-textos"
+            v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
+            <span class="urna-tela-voto-erro">Número errado</span>
+            <span class="urna-tela-voto-nulo">VOTO NULO</span>
+          </div>
+
+          <div class="urna-tela-voto-erros-textos" v-if="voteWhite">
+            <span class="urna-tela-voto-branco" v-if="voteWhite">VOTO EM BRANCO</span>
+          </div>
+        </div>
+        <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
+          <img :src="candidato.imagem" alt="foto do candidato">
+        </div>
+      </main>
+      <div class="urna-tela-voto-instrucoes">
+        <p><b>Aperte a tecla:</b></p>
+        <p>CONFIRMA para CONFIRMAR este voto</p>
+        <p>CORRIGE para REINICIAR este voto</p>
       </div>
-      <div class="urna-tela-voto-numeros">
-        Números
-        <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, '0')" :key="key">
-          {{ value }}
+    </div>
+    <div v-if="tela === 'gravando'" class="urna-tela-gravando">
+      <label for="progress-bar">Gravando</label>
+      <ProgressBar :percentage="100" />
+    </div>
+    <div v-if="tela === 'resultados'" class="urna-tela-resultados">
+      <h1>Total de votos</h1>
+      <div class="urna-tela-resultados-tipos">
+        <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
+          <h2>{{ key }}</h2>
+          <div class="urna-tela-candidatos">
+            <div v-for="(c, index) in sortObjectEntries(candidatos[key])" :key="index">
+              <div class="urna-tela-candidato-card" v-if="c[0] != 'nulo' && c[0] != 'branco'">
+                <span class="ranking-number">#{{ index + 1 }}</span>
+                <div class="candidato-image">
+                  <img :src="c[1].imagem" alt="foto do candidato" />
+                </div>
+                <div class="candidato-data">
+                  <p>
+                    <span v-if="c[1].nome.length < 10">Nome:</span> <em>{{ c[1].nome }}</em>
+                  </p>
+
+                  <p>
+                    Número: <span>{{ c[0] }}</span>
+                  </p>
+
+                  <p>
+                    <span v-if="c[1].partido.length <= 7">Partido:</span> <span>{{ c[1].partido }}</span>
+                  </p>
+
+                  <p>
+                    Total de votos: <span class="total-votes">{{ c[1].votos }}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="urna-tela-candidato-card" v-else>
+                <p v-if="c[0] == 'nulo'">
+                  Votos nulos: <b>{{ c[1] }}</b>
+                </p>
+                <p v-if="c[0] == 'branco'">
+                  Votos brancos: <b>{{ c[1] }}</b>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      votação
     </div>
-
-    <div class="urna-tela-voto-imagem"></div>
-
-    <div class="urna-tela-voto-instrucoes"></div>
 
     <div v-if="tela == 'fim'" class="urna-tela-fim">
       <audio src="../assets/audios/fim.mp3" autoplay></audio>
@@ -27,13 +98,41 @@
 </template>
 
 <script>
+import ProgressBar from './ProgressBar.vue';
 export default {
   name: "Tela",
   props: {
     tela: String,
     numeroVoto: String,
     quantidadeNumeros: Number,
+    candidato: Object,
+    candidatos: Object,
+    voteWhite: Boolean
   },
+  methods: {
+    sortObjectEntries(obj) {
+      let sortedList = [];
+      sortedList = Object.entries(obj).sort((a, b) => {
+        if (a.votos !== null && b.votos !== null) {
+          if (b[1].votos > a[1].votos)
+            return 1;
+          else if (b[1].votos < a[1].votos)
+            return -1;
+          //if values are same do edition checking if keys are in the right order
+          else {
+            if (a[0].votos > b[0].votos)
+              return 1;
+            else if (a[0].votos < b[0].votos)
+              return -1;
+            else
+              return 0;
+          }
+        }
+      });
+      return sortedList;
+    }
+  },
+  components: { ProgressBar }
 };
 </script>
 
@@ -44,9 +143,31 @@ export default {
   background-color: var(--ballot-box-screen-color);
   border-radius: 5px;
   border: 2px solid var(--light-border-color);
-  padding: 20px;
   color: var(--dark-text-color);
   font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+}
+
+.urna-tela-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.urna-tela-voto {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 20px;
+}
+
+.urna-tela-voto-foto {
+  max-width: 140px;
+}
+
+.urna-tela-voto-foto img {
+  width: 100%;
 }
 
 .urna-tela-voto-titulo {
@@ -63,6 +184,7 @@ export default {
 .urna-tela-voto-numeros {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .urna-tela-voto-numero {
@@ -87,5 +209,134 @@ export default {
 .urna-tela-fim h1 {
   font-size: 4.8em;
   letter-spacing: 1.5px;
+}
+
+.urna-tela-resultados {
+  padding: 20px 8px 10px 20px;
+}
+
+.urna-tela-resultados-tipos {
+  height: 377px;
+  display: flex;
+  gap: 6px;
+  overflow: auto;
+}
+
+.urna-tela-resultados * {
+  margin: 0;
+  padding: 0;
+}
+
+.urna-tela-resultados h1 {
+  font-size: 1.8em;
+}
+
+.urna-tela-resultados h2 {
+  padding: 10px 0;
+  font-size: 1.45em;
+  text-transform: capitalize;
+}
+
+.urna-tela-candidatos {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.urna-tela-candidato-card {
+  width: 230px;
+  max-height: 114.8px;
+  display: flex;
+  column-gap: 5px;
+  border: 1px solid #7a7a7a;
+  padding: 10px 5px;
+  font-size: .95em;
+  overflow: auto;
+}
+
+.candidato-image img {
+  width: 65px;
+}
+
+.candidato-data {
+  margin-top: 10px;
+}
+
+.total-votes {
+  font-weight: 600;
+}
+
+.ranking-number {
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.urna-tela-voto-erros-textos {
+  width: 460px;
+  height: 144px;
+  position: relative;
+}
+
+.urna-tela-voto-erro {
+  font-size: 1.8rem;
+}
+
+.urna-tela-voto-nulo,
+.urna-tela-voto-branco {
+  position: absolute;
+  font-size: 2.1rem;
+  animation: blinkblink 1.5s linear infinite;
+}
+
+.urna-tela-voto-nulo {
+  bottom: 0;
+  left: 30%;
+}
+
+.urna-tela-voto-branco {
+  bottom: 20%;
+  left: 18%;
+}
+
+.urna-tela-voto-nulo {
+  left: 30%;
+  bottom: 0;
+}
+
+.urna-tela-voto-branco {
+  left: 18%;
+}
+
+.urna-tela-voto-instrucoes {
+  border-top: 1px solid #000;
+  padding: 5px 20px;
+}
+
+.urna-tela-voto-instrucoes * {
+  margin: 6px 0;
+}
+
+.urna-tela-gravando {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column-reverse;
+  gap: 5px;
+}
+
+@keyframes blinkblink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 </style>
