@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <div class="options">
-      <button id="btn-restart" v-on:click="goToScreen('prefeito')"><img src="./assets/icons/restart.png"
-          alt="votar novamente"></button>
-      <button id="btn-statistics" v-on:click="goToScreen('resultados')"><img src="./assets/icons/trend.png"
-          alt="votar novamente"></button>
+    <div id="urna-cima">
+      <div class="options">
+        <button id="btn-restart" v-on:click="goToScreen('prefeito')"><img src="./assets/icons/restart.png"
+            alt="votar novamente"></button>
+        <button id="btn-statistics" v-on:click="goToScreen('resultados')"><img src="./assets/icons/trend.png"
+            alt="votar novamente"></button>
+      </div>
     </div>
     <div id="urna">
       <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato"
@@ -157,6 +159,26 @@ export default {
   background-color: var(--ballot-box-background-color);
   padding: 30px;
   border-radius: 5px;
+  border-top: 1px solid var(--light-border-color);
+}
+
+#urna-cima {
+  width: 770px;
+  height: 150px;
+  perspective: 150px;
+  position: relative;
+}
+
+#urna-cima::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: var(--ballot-box-background-color);
+  border-radius: 5px;
+  transform: rotateX(28deg);
+  position: absolute;
+  bottom: 6%;
+  left: 0%;
 }
 
 .options {
@@ -176,14 +198,16 @@ export default {
   background: none;
 }
 
+/*
 @media only screen and (max-width: 1047px) and (max-height: 551px) {
   /*landscape*/
-
+/*
   #app {
     flex-direction: column-reverse;
   }
 
-  #urna {
+  #urna,
+  #urna-cima {
     transform: scale(0.72);
     margin: 40px 0 10px;
   }
@@ -196,7 +220,9 @@ export default {
 }
 
 @media only screen and (max-width: 1090px) and (min-height: 552px) {
-  #urna {
+
+  #urna,
+  #urna-cima {
     transform: scale(0.38);
   }
 
@@ -208,5 +234,5 @@ export default {
   #btn-statistics {
     transform: scale(.55);
   }
-}
+}*/
 </style>
