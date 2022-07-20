@@ -149,6 +149,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 20px;
 }
 
 #urna {
@@ -242,7 +244,15 @@ export default {
     flex-direction: column-reverse;
   }
 
-  #urna,
+  #urna-cima {
+    width: 734px;
+  }
+}
+
+@media only screen and (max-width: 1047px) {
+  /*landscape*/
+
+/* #urna,
   #urna-cima {
     transform: scale(0.72);
     margin: 40px 0 10px;
@@ -252,9 +262,10 @@ export default {
     transform: scale(.45);
     position: relative;
     top: -72px;
-  }
+  } 
 }
 
+/*
 @media only screen and (max-width: 1090px) and (min-height: 552px) {
 
   #urna,
