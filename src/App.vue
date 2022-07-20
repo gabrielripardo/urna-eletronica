@@ -204,7 +204,7 @@ export default {
 /* Deixar urna-cima colada com a urna */
 @media only screen and (max-height: 700px) {
   #app {
-    transform: scale(0.8);
+    transform: scale(0.7);
   }
 
   #urna-cima {
@@ -233,6 +233,13 @@ export default {
 
   #urna-cima::before {
     bottom: -3%;
+  }
+}
+
+/* Mobile portrait*/
+@media only screen and (max-width: 500px) {
+  #app {
+    transform: scale(.38);
   }
 }
 
