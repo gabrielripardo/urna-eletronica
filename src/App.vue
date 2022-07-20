@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div id="urna-cima">
-      <div class="options">
+      <!-- <div class="options">
         <button id="btn-restart" v-on:click="goToScreen('prefeito')"><img src="./assets/icons/restart.png"
             alt="votar novamente"></button>
         <button id="btn-statistics" v-on:click="goToScreen('resultados')"><img src="./assets/icons/trend.png"
             alt="votar novamente"></button>
-      </div>
+      </div> -->
     </div>
     <div id="urna">
       <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato"
@@ -167,6 +167,7 @@ export default {
   height: 150px;
   perspective: 150px;
   position: relative;
+  padding: 20px 50px;
 }
 
 #urna-cima::before {
@@ -184,9 +185,9 @@ export default {
 .options {
   display: flex;
   gap: 40px;
-  position: fixed;
-  top: 20px;
-  right: 30px;
+  position: absolute;
+  top: 40px;
+  right: 50px;
 
 }
 
@@ -196,6 +197,41 @@ export default {
 
 #btn-statistics {
   background: none;
+}
+
+/* Deixar urna-cima colada com a urna */
+@media only screen and (max-height: 700px) {
+  #app {
+    transform: scale(0.8);
+  }
+
+  #urna-cima {
+    height: 52px;
+  }
+
+  #urna-cima::before {
+    bottom: -3%;
+  }
+}
+
+@media only screen and (max-height: 700px) {
+  #urna-cima {
+    width: 922px;
+  }
+
+  #urna-cima::before {
+    bottom: -1%;
+  }
+}
+
+@media only screen and (max-height: 473px) {
+  #urna-cima {
+    width: 940px;
+  }
+
+  #urna-cima::before {
+    bottom: -3%;
+  }
 }
 
 /*
