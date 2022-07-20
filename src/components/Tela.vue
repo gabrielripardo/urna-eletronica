@@ -1,6 +1,6 @@
 <template>
   <div class="urna-tela">
-    <div class="urna-tela-wrapper" v-if="tela === 'prefeito' || tela === 'vereador'">
+    <!-- <div class="urna-tela-wrapper" v-if="tela === 'prefeito' || tela === 'vereador'">
       <main class="urna-tela-voto">
         <div class="urna-tela-voto-textos">
           <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
@@ -40,7 +40,7 @@
         <p>CONFIRMA para CONFIRMAR este voto</p>
         <p>CORRIGE para REINICIAR este voto</p>
       </div>
-    </div>
+    </div> -->
     <div v-if="tela === 'gravando'" class="urna-tela-gravando">
       <label for="progress-bar">Gravando</label>
       <ProgressBar :percentage="100" />

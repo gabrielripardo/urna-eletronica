@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <div id="urna-cima">
-      <div class="options">
+      <!-- <div class="options">
         <button id="btn-restart" v-on:click="goToScreen('prefeito')"><img src="./assets/icons/restart.png"
             alt="votar novamente"></button>
         <button id="btn-statistics" v-on:click="goToScreen('resultados')"><img src="./assets/icons/trend.png"
             alt="votar novamente"></button>
-      </div>
+      </div> -->
     </div>
     <div id="urna">
       <Tela :tela="tela" :numeroVoto="numeroVoto" :quantidadeNumeros="quantidadeNumeros" :candidato="candidato"
@@ -149,6 +149,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 20px;
 }
 
 #urna {
@@ -198,15 +200,24 @@ export default {
   background: none;
 }
 
-/*
-@media only screen and (max-width: 1047px) and (max-height: 551px) {
-  /*landscape*/
-/*
-  #app {
-    flex-direction: column-reverse;
+/* Landscape Mobile */
+@media only screen and (max-width: 1000px) and (max-height: 500px) {
+
+  #urna {
+    width: 90vw;
+    height: 80vh;
+    padding: 15px;
   }
 
-  #urna,
+  #urna-cima {
+    width: 734px;
+  }
+}
+
+@media only screen and (max-width: 1047px) {
+  /*landscape*/
+
+  /* #urna,
   #urna-cima {
     transform: scale(0.72);
     margin: 40px 0 10px;
@@ -216,9 +227,10 @@ export default {
     transform: scale(.45);
     position: relative;
     top: -72px;
-  }
+  } */
 }
 
+/*
 @media only screen and (max-width: 1090px) and (min-height: 552px) {
 
   #urna,

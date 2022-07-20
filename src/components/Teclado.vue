@@ -95,4 +95,30 @@ export default {
 .btn-confirma {
     background-color: var(--ballot-box-confirm-button-color)
 }
+
+/* Landscape Mobile */
+@media only screen and (max-width: 1000px) and (max-height: 500px) {
+    .urna-teclado {
+        padding: 10px;
+    }
+
+    .urna-teclado-numerico button {
+        font-size: 1.9em;
+        width: 60px;
+        height: 25%;
+        margin: 0 5px 10px 5px;
+    }
+
+    .urna-teclado-acoes button {
+        text-align: center;
+        font-size: 12px;
+        width: 30%;
+        height: 30px;
+        margin-top: 10px;
+    }
+
+    .btn-confirma {
+        width: 35%;
+    }
+}
 </style>
