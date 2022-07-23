@@ -1,0 +1,6 @@
+{
+	"appId": "com.example.app",
+	"appName": "urna-eletronica",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
