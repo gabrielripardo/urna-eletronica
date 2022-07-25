@@ -21,7 +21,7 @@
 import "@/css/global.css";
 import Teclado from "@/components/Teclado.vue";
 import Tela from "@/components/Tela.vue";
-import { readData } from "./services/firestore"
+import { getCandidatos, getPartidos } from "./services/firestore"
 // Import the functions you need from the SDKs you need
 
 export default {
@@ -31,6 +31,19 @@ export default {
     Tela,
   },
 
+  data() {
+    return {
+      tela: "prefeito",
+      numeroVoto: "",
+      quantidadeNumeros: 2,
+      candidato: {},
+      candidatos: {},
+      partidos: {},
+      voteWhite: false,
+      tipos: ["prefeitos", "vereadores"]
+    };
+  },
+
   methods: {
     adicionarNumero(numero) {
       //Adiciona o número selecionado
@@ -38,6 +51,12 @@ export default {
         this.numeroVoto += '' + numero;
         if (this.candidatos[this.tela][this.numeroVoto]) {
           this.candidato = this.candidatos[this.tela][this.numeroVoto];
+        } else if (Object.keys(this.partidos).length !== 0 && this.numeroVoto.length == 2) {
+          for (const key in this.partidos) {
+            if (String(key) == this.numeroVoto) {
+              this.candidato['partido'] = this.partidos[key].nome;
+            }
+          }
         } else {
           this.candidato = {}
         }
@@ -119,18 +138,6 @@ export default {
     }
   },
 
-  data() {
-    return {
-      tela: "prefeito",
-      numeroVoto: "",
-      quantidadeNumeros: 2,
-      candidato: {},
-      candidatos: {},
-      voteWhite: false,
-      tipos: ["prefeitos", "vereadores"]
-    };
-  },
-
   mounted() {
     window.addEventListener("keydown", e => {
       if (Number(e.key)) this.adicionarNumero(e.key)
@@ -143,9 +150,11 @@ export default {
 
     (async () => {
       for (const iterator of this.tipos) {
-        if (iterator === 'prefeitos') this.candidatos['prefeito'] = await readData(iterator)
-        if (iterator === 'vereadores') this.candidatos['vereador'] = await readData(iterator)
+        if (iterator === 'prefeitos') this.candidatos['prefeito'] = await getCandidatos(iterator)
+        if (iterator === 'vereadores') this.candidatos['vereador'] = await getCandidatos(iterator)
       }
+
+      this.partidos = await getPartidos()
     })()
   }
 };

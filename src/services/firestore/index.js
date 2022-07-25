@@ -21,7 +21,7 @@ console.log('# analytics: ', analytics);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export const readData = async (tipo) => {
+export const getCandidatos = async (tipo) => {
     const citiesRef = collection(db, tipo);
     const q = query(citiesRef, where("user", "==", "TeD17ypqtLtI3tU52TOA"));
     const querySnapshot = await getDocs(q);
@@ -36,3 +36,17 @@ export const readData = async (tipo) => {
     });
     return candidates
 }
+
+export const getPartidos = async () => {
+    const citiesRef = collection(db, 'partidos');
+    const q = query(citiesRef, where("user", "==", "TeD17ypqtLtI3tU52TOA"));
+    const querySnapshot = await getDocs(q);
+    let partidos = {}
+    querySnapshot.forEach((doc) => {
+        partidos[doc.data()?.numero] = {
+            nome: doc.data()?.nome,
+        }
+    });
+    return partidos
+}
+
