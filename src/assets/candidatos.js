@@ -16,15 +16,15 @@ export default {
     "nulo": 0,
   },
   "vereador": {
-    "91234": {
+    "12234": {
       "votos": 0,
       "nome": "Pikachu",
       "partido": "Pokemont",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/pikachu.png"
     },
-    "28001": {
+    "88001": {
       "votos": 0,
-      "nome": "Gokadddffu",
+      "nome": "Goku",
       "partido": "Dragon Ball",
       "imagem": "https://raw.githubusercontent.com/william-costa/wdev-urna-eletronica-resources/master/images/goku.png"
     },

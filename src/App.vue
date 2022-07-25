@@ -21,15 +21,8 @@
 import "@/css/global.css";
 import Teclado from "@/components/Teclado.vue";
 import Tela from "@/components/Tela.vue";
-import candidatos from "@/assets/candidatos.js"
+import { readData } from "./services/firestore"
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-import { getFirestore } from "firebase/firestore";
-// import { collection, addDoc, getDocs } from "firebase/firestore";
-import { collection, getDocs } from "firebase/firestore";
 
 export default {
   name: "App",
@@ -43,8 +36,8 @@ export default {
       //Adiciona o número selecionado
       if (this.numeroVoto.length < this.quantidadeNumeros && this.isVoteScreen()) {
         this.numeroVoto += '' + numero;
-        if (candidatos[this.tela][this.numeroVoto]) {
-          this.candidato = candidatos[this.tela][this.numeroVoto];
+        if (this.candidatos[this.tela][this.numeroVoto]) {
+          this.candidato = this.candidatos[this.tela][this.numeroVoto];
         } else {
           this.candidato = {}
         }
@@ -84,13 +77,13 @@ export default {
     },
 
     storeVote() {
-      if (this.isVoteScreen()) {
-        console.log('armazenando voto')
-        if (candidatos[this.tela][this.numeroVoto]) {
-          candidatos[this.tela][this.numeroVoto].votos += 1
-          console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
-        }
-      }
+      // if (this.isVoteScreen()) {
+      //   console.log('armazenando voto')
+      //   if (candidatos[this.tela][this.numeroVoto]) {
+      //     candidatos[this.tela][this.numeroVoto].votos += 1
+      //     console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
+      //   }
+      // }
     },
 
     goToScreen(name) {
@@ -132,8 +125,9 @@ export default {
       numeroVoto: "",
       quantidadeNumeros: 2,
       candidato: {},
-      candidatos,
+      candidatos: {},
       voteWhite: false,
+      tipos: ["prefeitos", "vereadores"]
     };
   },
 
@@ -147,50 +141,12 @@ export default {
       if (e.key === 'Enter') this.confirmVote()
     });
 
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXCoyUCV2MnEcC2CX4ZyiJ1CBf9NWbP14",
-      authDomain: "urna-eletronica-2f949.firebaseapp.com",
-      projectId: "urna-eletronica-2f949",
-      storageBucket: "urna-eletronica-2f949.appspot.com",
-      messagingSenderId: "312415667196",
-      appId: "1:312415667196:web:fbde65fecb048c37856879",
-      measurementId: "G-HJ6MWDJHTT"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    console.log('# analytics: ', analytics);
-
-    // Initialize Cloud Firestore and get a reference to the service
-    const db = getFirestore(app);
-
-    const addData = async () => {
-      // try {
-      //   const docRef = await addDoc(collection(db, "users"), {
-      //     first: "Ada",
-      //     last: "Lovelace",
-      //     born: 1815
-      //   });
-      //   console.log("Document written with ID: ", docRef.id);
-      // } catch (e) {
-      //   console.error("Error adding document: ", e);
-      // }
-    }
-
-    const readData = async () => {
-      const querySnapshot = await getDocs(collection(db, "partidos"));
-      querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
-        console.log(doc.data());
-      });
-    }
-
-    addData()
-
-    readData()
+    (async () => {
+      for (const iterator of this.tipos) {
+        if (iterator === 'prefeitos') this.candidatos['prefeito'] = await readData(iterator)
+        if (iterator === 'vereadores') this.candidatos['vereador'] = await readData(iterator)
+      }
+    })()
   }
 };
 </script>
