@@ -21,7 +21,7 @@
 import "@/css/global.css";
 import Teclado from "@/components/Teclado.vue";
 import Tela from "@/components/Tela.vue";
-import { getCandidatos, getPartidos } from "./services/firestore"
+import { getCandidatos, getPartidos, setVote } from "./services/firestore"
 // Import the functions you need from the SDKs you need
 
 export default {
@@ -96,13 +96,13 @@ export default {
     },
 
     storeVote() {
-      // if (this.isVoteScreen()) {
-      //   console.log('armazenando voto')
-      //   if (candidatos[this.tela][this.numeroVoto]) {
-      //     candidatos[this.tela][this.numeroVoto].votos += 1
-      //     console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
-      //   }
-      // }
+      if (this.isVoteScreen()) {
+        console.log('armazenando voto')
+        if (this.candidatos[this.tela][this.numeroVoto]) {
+          setVote(this.tela, this.numeroVoto);
+          // console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
+        }
+      }
     },
 
     goToScreen(name) {

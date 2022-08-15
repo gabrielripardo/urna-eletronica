@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // import { collection, setDoc, getDocs, doc, where, query } from "firebase/firestore";
-import { getFirestore, collection, getDocs, where, query } from "firebase/firestore";
+import { getFirestore, collection, getDocs, where, query, runTransaction, doc } from "firebase/firestore";
+// import { getFirestore, collection, getDocs, where, query } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCXCoyUCV2MnEcC2CX4ZyiJ1CBf9NWbP14",
@@ -50,3 +51,57 @@ export const getPartidos = async () => {
     return partidos
 }
 
+export const setVote = async (tela, numCandidato) => {
+    console.log('# armazenando voto no DB...');
+    let nameDoc = ''
+    if (tela === 'prefeito') nameDoc = 'prefeitos'
+    if (tela === 'vereador') nameDoc = 'vereadores'
+
+    console.log('# NumeroVoto: ', numCandidato);
+
+    const candidato = await getCandidato(nameDoc, numCandidato)
+    console.log('# get candidato: ', candidato);
+
+    const candRef = collection(db, nameDoc);
+    const q = query(candRef, where("numero", "==", Number(numCandidato)));
+    const sfDocRef = doc(candRef, q);
+    // const sfDocRef = doc(db, nameDoc, candidato.numero);
+
+    try {
+        await runTransaction(db, async (transaction) => {
+            const sfDoc = await transaction.get(sfDocRef);
+            if (!sfDoc.exists()) {
+                throw "Document does not exist!";
+            }
+
+            const newPopulation = sfDoc.data().votos + 1;
+            transaction.update(sfDocRef, { votos: newPopulation });
+        });
+        console.log("Transaction successfully committed!");
+    } catch (e) {
+        console.log("Transaction failed: ", e);
+    }
+}
+
+export const getCandidato = async (tipo, numCandidato) => {
+    console.log('# Obtendo candidato apartir do DB... ', numCandidato);
+    console.log('# tipo: ', tipo);
+    console.log('# numCandidato: ', numCandidato);
+    const candRef = collection(db, tipo);
+    const q = query(candRef, where("numero", "==", Number(numCandidato)));
+    const querySnapshot = await getDocs(q);
+    console.log('# querySnapshot: ', querySnapshot);
+    let candidato = {}
+    querySnapshot.forEach((doc) => {
+        console.log(doc);
+        candidato = {
+            nome: doc.data()?.nome,
+            numero: doc.data()?.numero,
+            votos: doc.data()?.votos,
+            partido: doc.data()?.partido,
+            imagem: doc.data()?.imagem
+        }
+    });
+    console.log('# Candidato: ', candidato);
+    return candidato
+}
