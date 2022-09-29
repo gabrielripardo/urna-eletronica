@@ -4,7 +4,7 @@
       <main class="urna-tela-voto">
         <div class="urna-tela-voto-textos">
           <div class="urna-tela-voto-titulo" v-if="numeroVoto.length === quantidadeNumeros">Seu voto para:</div>
-          <div class="urna-tela-voto-tipo">{{ tela }}</div>
+          <div class="urna-tela-voto-tipo">{{ tela === 'prefeito' ? 'Presidente' : tela }}</div>
           <div class="urna-tela-voto-numeros" v-if="!voteWhite">
             <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
             <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, ' ')"
@@ -47,10 +47,10 @@
     </div>
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
       <h1>Total de votos</h1>
+      <h2>Presidente</h2>
       <div class="urna-tela-resultados-tipos">
         <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
-          <h2>{{ key }}</h2>
-          <div class="urna-tela-candidatos">
+          <div v-if="key === 'prefeito'" class="urna-tela-candidatos">
             <div v-for="(c, index) in sortObjectEntries(candidatos[key])" :key="index">
               <div class="urna-tela-candidato-card" v-if="c[0] != 'nulo' && c[0] != 'branco'">
                 <span class="ranking-number">#{{ index + 1 }}</span>
@@ -216,8 +216,9 @@ export default {
 }
 
 .urna-tela-resultados-tipos {
-  height: 377px;
+  height: 330px;
   display: flex;
+  justify-content: center;
   gap: 6px;
   overflow: auto;
 }
@@ -244,7 +245,7 @@ export default {
 }
 
 .urna-tela-candidato-card {
-  width: 230px;
+  /*width: 230px;*/
   max-height: 114.8px;
   display: flex;
   column-gap: 5px;

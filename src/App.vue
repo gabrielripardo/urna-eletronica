@@ -84,12 +84,13 @@ export default {
           this.candidatos[this.tela].nulo += 1
           console.log('voto nulo');
         }
-        if (this.tela == 'vereador') {
+        if (this.tela == 'prefeito') {
           this.tela = "gravando"
           setTimeout(() => this.tela = 'fim', 3000)
+          setTimeout(() => this.tela = 'resultados', 5000)
           this.quantidadeNumeros = 2;
         } else {
-          this.goToScreen('vereador')
+          this.goToScreen('gravando')
           this.quantidadeNumeros = 5;
         }
       }
