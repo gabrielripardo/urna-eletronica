@@ -51,7 +51,7 @@
       <div class="urna-tela-resultados-tipos">
         <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
           <div v-if="key === 'prefeito'" class="urna-tela-candidatos">
-            <div v-for="(c, index) in sortObjectEntries(candidatos[key])" :key="index">
+            <div v-for="(c, index) in orderByCandidates(candidatos[key])" :key="index">
               <div class="urna-tela-candidato-card" v-if="c[1].nome != 'nulo' && c[1].nome != 'branco'">
                 <span class="ranking-number">#{{ index + 1 }}</span>
                 <div class="candidato-image">
@@ -129,8 +129,16 @@ export default {
           }
         }
       });
+      console.log('# sortedList: ', sortedList);
       return sortedList;
-    }
+    },
+
+    orderByCandidates(candidatos) {
+      console.log('# candidatos: ', candidatos);
+      const nullAndWhite = Object.entries(candidatos).filter(el => el[0] == String(null) || el[0] == String(0))
+      const candidates = this.sortObjectEntries(candidatos).filter(el => el[0] != String(null) && el[0] != String(0))
+      return candidates.concat(nullAndWhite)
+    },
   },
   components: { ProgressBar }
 };
@@ -220,7 +228,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 6px;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .urna-tela-resultados * {
