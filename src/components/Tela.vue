@@ -75,16 +75,21 @@
                   </p>
 
                   <p>
-                    Total de votos: <span class="total-votes">{{ c[1].votos }}</span>
+                    Total de votos: <span class="total-votes">{{ c[1].votos }} <span
+                        class="total-votes-porcentage">{{c['porcentagem']}}%</span></span>
                   </p>
                 </div>
               </div>
               <div class="urna-tela-candidato-card" v-else>
                 <p v-if="c[1].nome == 'nulo'">
-                  Votos nulos: <b>{{ c[1].votos }}</b>
+                  Votos nulos:
+                  <span class="total-votes">{{ c[1].votos }} <span
+                      class="total-votes-porcentage">{{c['porcentagem']}}%</span></span>
                 </p>
                 <p v-if="c[1].nome == 'branco'">
-                  Votos brancos: <b>{{ c[1].votos }}</b>
+                  Votos brancos:
+                  <span class="total-votes">{{ c[1].votos }} <span
+                      class="total-votes-porcentage">{{c['porcentagem']}}%</span></span>
                 </p>
               </div>
             </div>
@@ -159,10 +164,10 @@ export default {
       }, 0)
       console.log('# total votes: ', this.totalVotes);
       const nullAndWhite = Object.entries(candidatos).filter(el => el[0] == String(null) || el[0] == String(0))
-      const candidates = this.sortObjectEntries(candidatos)
-        .filter(el => el[0] != String(null) && el[0] != String(0))
-      // .map(el => ({ ...el, porcentagem: el[0].votos / 100 * this.totalVotes }))
-      return candidates.concat(nullAndWhite)
+      const candidates = this.sortObjectEntries(candidatos).filter(el => el[0] != String(null) && el[0] != String(0))
+      const everyCandidates = candidates.concat(nullAndWhite).map(el => ({ ...el, porcentagem: Math.trunc((el[1].votos / this.totalVotes) * 100) }))
+      console.log('# everyCandidates: ', everyCandidates);
+      return everyCandidates
     },
   },
   components: { ProgressBar }
@@ -294,11 +299,21 @@ export default {
 }
 
 .candidato-data {
+  width: 100%;
   margin-top: 10px;
 }
 
 .total-votes {
+  width: 100%;
+  position: relative;
   font-weight: 600;
+}
+
+.total-votes-porcentage {
+  font-weight: 100;
+  font-size: 1.2rem;
+  position: absolute;
+  left: 22px;
 }
 
 .ranking-number {
