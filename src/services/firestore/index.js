@@ -4,7 +4,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore, collection, getDocs, where, query, doc, setDoc, firebase } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: process.env.apiKey,
+    apiKey: "AIzaSyCXCoyUCV2MnEcC2CX4ZyiJ1CBf9NWbP14",
     authDomain: "urna-eletronica-2f949.firebaseapp.com",
     projectId: "urna-eletronica-2f949",
     storageBucket: "urna-eletronica-2f949.appspot.com",
