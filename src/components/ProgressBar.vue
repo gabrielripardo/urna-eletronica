@@ -23,8 +23,7 @@ export default {
     },
     onLeave(el, done) {
       // call the done callback to indicate transition end
-      // optional if used in combination with CSS
-      console.log('feito!!', done);
+      // optional if used in combination with CSS      
       done()
     },
   }

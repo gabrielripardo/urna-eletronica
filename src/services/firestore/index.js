@@ -16,7 +16,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-console.log('# analytics: ', analytics);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
@@ -25,7 +24,7 @@ async function storeVoteDB(candidato) {
     const docRef = doc(db, "prefeitos", candidato.key);
     await setDoc(docRef, { votos: candidato.votos }, { merge: true })
         .then(() => {
-            console.log("Entire Document has been updated successfully!");
+            console.log("Ok!");
         }).catch((error) => {
             console.log(error);
         })
@@ -60,7 +59,6 @@ export const getCandidatos = async (tipo) => {
             imagem: doc.data()?.imagem
         }
     });
-    console.log('# todos os candidatos: ', candidates);
     return candidates
 }
 
@@ -78,34 +76,25 @@ export const getPartidos = async () => {
 }
 
 export const setVote = async (tela, numCandidato) => {
-    console.log('# armazenando voto no DB...');
     let nameDoc = ''
     if (tela === 'prefeito') nameDoc = 'prefeitos'
     if (tela === 'vereador') nameDoc = 'vereadores'
 
-    console.log('# NumeroVoto: ', numCandidato);
 
     const candidato = await getCandidato(nameDoc, numCandidato)
-    console.log('# get candidato: ', candidato);
     candidato.votos += 1;
-    console.log('## candidato atualizado', candidato);
 
     storeVoteDB(candidato)
 }
 
 export const getCandidato = async (tipo, numCandidato) => {
-    console.log('# Obtendo candidato apartir do DB... ', numCandidato);
-    console.log('# tipo: ', tipo);
-    console.log('# numCandidato: ', numCandidato);
     const candRef = collection(db, tipo);
     const q = query(candRef, where("numero", "==", numCandidato != null ? Number(numCandidato) : numCandidato));
     const querySnapshot = await getDocs(q);
     let candidato = {}
     querySnapshot.forEach((doc) => {
-        console.log(doc);
         if (!candidato?.key) {
             candidato = { ...candidato, key: doc['_key']['path']['segments'][6] }
-            console.log('# querySnapshot: ', doc['_key']['path']['segments'][6]);
         }
         candidato = {
             ...candidato,
@@ -116,6 +105,5 @@ export const getCandidato = async (tipo, numCandidato) => {
             imagem: doc.data()?.imagem
         }
     });
-    console.log('# Candidato: ', candidato);
     return candidato
 }

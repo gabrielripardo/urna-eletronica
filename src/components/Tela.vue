@@ -151,22 +151,16 @@ export default {
           }
         }
       });
-      console.log('# sortedList: ', sortedList);
       return sortedList;
     },
 
     orderByCandidates(candidatos) {
-      console.log('# candidatos: ', candidatos);
       this.totalVotes = Object.entries(candidatos).reduce((previous, current) => {
-        console.log('# previous: ', previous);
-        console.log('# current: ', current);
         return previous + current[1].votos
       }, 0)
-      console.log('# total votes: ', this.totalVotes);
       const nullAndWhite = Object.entries(candidatos).filter(el => el[0] == String(null) || el[0] == String(0))
       const candidates = this.sortObjectEntries(candidatos).filter(el => el[0] != String(null) && el[0] != String(0))
       const everyCandidates = candidates.concat(nullAndWhite).map(el => ({ ...el, porcentagem: Math.trunc((el[1].votos / this.totalVotes) * 100) }))
-      console.log('# everyCandidates: ', everyCandidates);
       return everyCandidates
     },
   },

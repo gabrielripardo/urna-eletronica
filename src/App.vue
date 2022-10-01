@@ -79,14 +79,11 @@ export default {
           this.candidatos[this.tela].branco += 1
           this.handleWhiteVote(false)
           this.storeVote(0)
-          console.log('voto branco');
         } else if (Object.keys(this.candidato).length !== 0) {
-          // this.storeVote()
-          console.log('voto ok');
+          // this.storeVote()          
           this.storeVote(this.numeroVoto)
         } else {
           this.candidatos[this.tela].nulo += 1
-          console.log('voto nulo');
           this.storeVote(null)
         }
 
@@ -97,7 +94,6 @@ export default {
 
     storeVote(type) {
       if (this.isVoteScreen()) {
-        console.log('armazenando voto')
         setVote(this.tela, type);
       }
     },
@@ -118,7 +114,6 @@ export default {
 
     goToScreen(name) {
       this.tela = name
-      console.log('tela: ', name)
       this.clearDigits()
       if (this.tela === 'prefeito') {
         this.quantidadeNumeros = 2;
