@@ -7,9 +7,13 @@
           <div class="urna-tela-voto-tipo">{{ tela === 'prefeito' ? 'Presidente' : tela }}</div>
           <div class="urna-tela-voto-numeros" v-if="!voteWhite">
             <span v-if="numeroVoto.length === quantidadeNumeros">Número:</span>
-            <div class="urna-tela-voto-numero" v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, ' ')"
-              :key="key">
-              {{ value }}
+            <div v-for="(value, key) in numeroVoto.padEnd(quantidadeNumeros, ' ')" :key="key">
+              <div v-if="numeroVoto.length == key" class="urna-tela-blink urna-tela-voto-numero">
+                {{ value }}
+              </div>
+              <div v-else class="urna-tela-voto-numero">
+                {{ value }}
+              </div>
             </div>
           </div>
           <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-dados">
@@ -24,11 +28,11 @@
           <div class="urna-tela-voto-erros-textos"
             v-if="Object.keys(candidato).length === 0 && numeroVoto.length === quantidadeNumeros">
             <span class="urna-tela-voto-erro">Número errado</span>
-            <span class="urna-tela-voto-nulo">VOTO NULO</span>
+            <span class="urna-tela-voto-nulo urna-tela-blink">VOTO NULO</span>
           </div>
 
           <div class="urna-tela-voto-erros-textos" v-if="voteWhite">
-            <span class="urna-tela-voto-branco" v-if="voteWhite">VOTO EM BRANCO</span>
+            <span class="urna-tela-voto-branco urna-tela-blink" v-if="voteWhite">VOTO EM BRANCO</span>
           </div>
         </div>
         <div v-if="Object.keys(candidato).length !== 0" class="urna-tela-voto-foto">
@@ -302,6 +306,9 @@ export default {
 .urna-tela-voto-branco {
   text-align: center;
   font-size: 1.8rem;
+}
+
+.urna-tela-blink {
   animation: blinkblink 1.5s linear infinite;
 }
 
