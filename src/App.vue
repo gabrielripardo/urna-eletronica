@@ -73,6 +73,8 @@ export default {
 
     confirmVote() {
       if (this.numeroVoto != '' || this.voteWhite) {
+
+        //Computação dos votos
         if (this.voteWhite) {
           this.candidatos[this.tela].branco += 1
           this.handleWhiteVote(false)
@@ -84,8 +86,11 @@ export default {
           this.candidatos[this.tela].nulo += 1
           console.log('voto nulo');
         }
+
+        //Páginas
         if (this.tela == 'prefeito') {
           this.tela = "gravando"
+          setTimeout(() => this.dataFetchCandidatos(), 2000)
           setTimeout(() => this.tela = 'fim', 3000)
           setTimeout(() => this.tela = 'resultados', 5000)
           this.quantidadeNumeros = 2;
@@ -136,6 +141,15 @@ export default {
     deleteOneDigit() {
       this.numeroVoto = this.numeroVoto.slice(0, -1);
       this.candidato = {}
+    },
+
+    async dataFetchCandidatos() {
+      for (const iterator of this.tipos) {
+        if (iterator === 'prefeitos') this.candidatos['prefeito'] = await getCandidatos(iterator)
+        if (iterator === 'vereadores') this.candidatos['vereador'] = await getCandidatos(iterator)
+      }
+
+      this.partidos = await getPartidos()
     }
   },
 
@@ -149,15 +163,10 @@ export default {
       if (e.key === 'Enter') this.confirmVote()
     });
 
-    (async () => {
-      for (const iterator of this.tipos) {
-        if (iterator === 'prefeitos') this.candidatos['prefeito'] = await getCandidatos(iterator)
-        if (iterator === 'vereadores') this.candidatos['vereador'] = await getCandidatos(iterator)
-      }
-
-      this.partidos = await getPartidos()
-    })()
+    this.dataFetchCandidatos()
   }
+
+
 };
 </script>
 

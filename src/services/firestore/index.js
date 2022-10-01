@@ -1,8 +1,7 @@
+/* eslint-disable no-unused-vars */
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// import { collection, setDoc, getDocs, doc, where, query } from "firebase/firestore";
-import { getFirestore, collection, getDocs, where, query, runTransaction, doc } from "firebase/firestore";
-// import { getFirestore, collection, getDocs, where, query } from "firebase/firestore";
+import { getFirestore, collection, getDocs, where, query, doc, setDoc, firebase } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCXCoyUCV2MnEcC2CX4ZyiJ1CBf9NWbP14",
@@ -22,6 +21,32 @@ console.log('# analytics: ', analytics);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+async function storeVoteDB(candidato) {
+    const docRef = doc(db, "prefeitos", candidato.key);
+    await setDoc(docRef, { votos: candidato.votos }, { merge: true })
+        .then(() => {
+            console.log("Entire Document has been updated successfully!");
+        }).catch((error) => {
+            console.log(error);
+        })
+
+    // runTransaction(postRef, (post) => {
+    //     if (post) {
+    //         if (post && post[uid]) {
+    //             post.votos--;
+    //             post[uid] = null;
+    //         } else {
+    //             post.votos++;
+    //             if (!post.votos) {
+    //                 post.votos = {};
+    //             }
+    //             post[uid] = true;
+    //         }
+    //     }
+    //     return post;
+    // });
+}
+
 export const getCandidatos = async (tipo) => {
     const citiesRef = collection(db, tipo);
     const q = query(citiesRef, where("user", "==", "TeD17ypqtLtI3tU52TOA"));
@@ -35,6 +60,7 @@ export const getCandidatos = async (tipo) => {
             imagem: doc.data()?.imagem
         }
     });
+    console.log('# todos os candidatos: ', candidates);
     return candidates
 }
 
@@ -61,26 +87,10 @@ export const setVote = async (tela, numCandidato) => {
 
     const candidato = await getCandidato(nameDoc, numCandidato)
     console.log('# get candidato: ', candidato);
+    candidato.votos += 1;
+    console.log('## candidato atualizado', candidato);
 
-    const candRef = collection(db, nameDoc);
-    const q = query(candRef, where("numero", "==", Number(numCandidato)));
-    const sfDocRef = doc(candRef, q);
-    // const sfDocRef = doc(db, nameDoc, candidato.numero);
-
-    try {
-        await runTransaction(db, async (transaction) => {
-            const sfDoc = await transaction.get(sfDocRef);
-            if (!sfDoc.exists()) {
-                throw "Document does not exist!";
-            }
-
-            const newPopulation = sfDoc.data().votos + 1;
-            transaction.update(sfDocRef, { votos: newPopulation });
-        });
-        console.log("Transaction successfully committed!");
-    } catch (e) {
-        console.log("Transaction failed: ", e);
-    }
+    storeVoteDB(candidato)
 }
 
 export const getCandidato = async (tipo, numCandidato) => {
@@ -90,11 +100,15 @@ export const getCandidato = async (tipo, numCandidato) => {
     const candRef = collection(db, tipo);
     const q = query(candRef, where("numero", "==", Number(numCandidato)));
     const querySnapshot = await getDocs(q);
-    console.log('# querySnapshot: ', querySnapshot);
     let candidato = {}
     querySnapshot.forEach((doc) => {
         console.log(doc);
+        if (!candidato?.key) {
+            candidato = { ...candidato, key: doc['_key']['path']['segments'][6] }
+            console.log('# querySnapshot: ', doc['_key']['path']['segments'][6]);
+        }
         candidato = {
+            ...candidato,
             nome: doc.data()?.nome,
             numero: doc.data()?.numero,
             votos: doc.data()?.votos,

@@ -52,7 +52,7 @@
         <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
           <div v-if="key === 'prefeito'" class="urna-tela-candidatos">
             <div v-for="(c, index) in sortObjectEntries(candidatos[key])" :key="index">
-              <div class="urna-tela-candidato-card" v-if="c[0] != 'nulo' && c[0] != 'branco'">
+              <div class="urna-tela-candidato-card" v-if="c[1].nome != 'nulo' && c[1].nome != 'branco'">
                 <span class="ranking-number">#{{ index + 1 }}</span>
                 <div class="candidato-image">
                   <img :src="c[1].imagem" alt="foto do candidato" />
