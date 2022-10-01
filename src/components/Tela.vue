@@ -76,11 +76,11 @@
                 </div>
               </div>
               <div class="urna-tela-candidato-card" v-else>
-                <p v-if="c[0] == 'nulo'">
-                  Votos nulos: <b>{{ c[1] }}</b>
+                <p v-if="c[1].nome == 'nulo'">
+                  Votos nulos: <b>{{ c[1].votos }}</b>
                 </p>
-                <p v-if="c[0] == 'branco'">
-                  Votos brancos: <b>{{ c[1] }}</b>
+                <p v-if="c[1].nome == 'branco'">
+                  Votos brancos: <b>{{ c[1].votos }}</b>
                 </p>
               </div>
             </div>

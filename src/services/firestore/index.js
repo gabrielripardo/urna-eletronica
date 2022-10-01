@@ -98,7 +98,7 @@ export const getCandidato = async (tipo, numCandidato) => {
     console.log('# tipo: ', tipo);
     console.log('# numCandidato: ', numCandidato);
     const candRef = collection(db, tipo);
-    const q = query(candRef, where("numero", "==", Number(numCandidato)));
+    const q = query(candRef, where("numero", "==", numCandidato != null ? Number(numCandidato) : numCandidato));
     const querySnapshot = await getDocs(q);
     let candidato = {}
     querySnapshot.forEach((doc) => {

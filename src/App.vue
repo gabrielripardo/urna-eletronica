@@ -78,36 +78,41 @@ export default {
         if (this.voteWhite) {
           this.candidatos[this.tela].branco += 1
           this.handleWhiteVote(false)
+          this.storeVote(0)
           console.log('voto branco');
         } else if (Object.keys(this.candidato).length !== 0) {
-          this.storeVote()
+          // this.storeVote()
           console.log('voto ok');
+          this.storeVote(this.numeroVoto)
         } else {
           this.candidatos[this.tela].nulo += 1
           console.log('voto nulo');
+          this.storeVote(null)
         }
 
-        //Páginas
-        if (this.tela == 'prefeito') {
-          this.tela = "gravando"
-          setTimeout(() => this.dataFetchCandidatos(), 2000)
-          setTimeout(() => this.tela = 'fim', 3000)
-          setTimeout(() => this.tela = 'resultados', 5000)
-          this.quantidadeNumeros = 2;
-        } else {
-          this.goToScreen('gravando')
-          this.quantidadeNumeros = 5;
-        }
+        this.nextScreen()
+
       }
     },
 
-    storeVote() {
+    storeVote(type) {
       if (this.isVoteScreen()) {
         console.log('armazenando voto')
-        if (this.candidatos[this.tela][this.numeroVoto]) {
-          setVote(this.tela, this.numeroVoto);
-          // console.log('votos: ', candidatos[this.tela][this.numeroVoto].votos)
-        }
+        setVote(this.tela, type);
+      }
+    },
+
+    nextScreen() {
+      //Páginas
+      if (this.tela == 'prefeito') {
+        this.tela = "gravando"
+        setTimeout(() => this.dataFetchCandidatos(), 2000)
+        setTimeout(() => this.tela = 'fim', 3000)
+        setTimeout(() => this.tela = 'resultados', 5000)
+        this.quantidadeNumeros = 2;
+      } else {
+        this.goToScreen('gravando')
+        this.quantidadeNumeros = 5;
       }
     },
 
