@@ -50,7 +50,7 @@
       <ProgressBar :percentage="100" />
     </div>
     <div v-if="tela === 'resultados'" class="urna-tela-resultados">
-      <h1>Total de votos</h1>
+      <h1>Classificação</h1>
       <h2>Presidente</h2>
       <div class="urna-tela-resultados-tipos">
         <div class="urna-tela-tipo" v-for="(value, key) in candidatos" :key="key">
@@ -88,12 +88,19 @@
                 </p>
               </div>
             </div>
+            <div class="urna-tela-candidatos">
+              <div class="urna-tela-candidato-card">
+                <p>
+                  Total de votos: <b>{{ totalVotes }}</b>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="tela == 'fim'" class="urna-tela-fim">
+    <div v-if=" tela=='fim'" class=" urna-tela-fim">
       <audio src="../assets/audios/fim.mp3" autoplay></audio>
       <h1>FIM</h1>
       <h2>VOTOU</h2>
@@ -113,6 +120,12 @@ export default {
     candidatos: Object,
     voteWhite: Boolean
   },
+  data() {
+    return {
+      totalVotes: 0
+    }
+  },
+
   methods: {
     sortObjectEntries(obj) {
       let sortedList = [];
@@ -139,8 +152,16 @@ export default {
 
     orderByCandidates(candidatos) {
       console.log('# candidatos: ', candidatos);
+      this.totalVotes = Object.entries(candidatos).reduce((previous, current) => {
+        console.log('# previous: ', previous);
+        console.log('# current: ', current);
+        return previous + current[1].votos
+      }, 0)
+      console.log('# total votes: ', this.totalVotes);
       const nullAndWhite = Object.entries(candidatos).filter(el => el[0] == String(null) || el[0] == String(0))
-      const candidates = this.sortObjectEntries(candidatos).filter(el => el[0] != String(null) && el[0] != String(0))
+      const candidates = this.sortObjectEntries(candidatos)
+        .filter(el => el[0] != String(null) && el[0] != String(0))
+      // .map(el => ({ ...el, porcentagem: el[0].votos / 100 * this.totalVotes }))
       return candidates.concat(nullAndWhite)
     },
   },
