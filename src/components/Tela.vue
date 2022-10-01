@@ -164,6 +164,7 @@ export default {
 }
 
 .urna-tela-voto {
+  height: 100%;
   display: flex;
   justify-content: space-between;
   gap: 8px;
@@ -280,40 +281,39 @@ export default {
   font-weight: 600;
 }
 
+.urna-tela-voto-textos {
+  height: 100%;
+}
+
 .urna-tela-voto-erros-textos {
   width: 460px;
-  height: 144px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .urna-tela-voto-erro {
+  align-self: flex-start;
   font-size: 1.8rem;
 }
 
 .urna-tela-voto-nulo,
 .urna-tela-voto-branco {
-  position: absolute;
-  font-size: 2.1rem;
+  text-align: center;
+  font-size: 1.8rem;
   animation: blinkblink 1.5s linear infinite;
 }
 
 .urna-tela-voto-nulo {
-  bottom: 0;
-  left: 30%;
+  position: absolute;
+  bottom: 30%;
 }
+
 
 .urna-tela-voto-branco {
-  bottom: 20%;
-  left: 18%;
-}
-
-.urna-tela-voto-nulo {
-  left: 30%;
-  bottom: 0;
-}
-
-.urna-tela-voto-branco {
-  left: 18%;
+  position: absolute;
+  bottom: 50%;
 }
 
 .urna-tela-voto-instrucoes {
